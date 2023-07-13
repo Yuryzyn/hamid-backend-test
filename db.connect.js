@@ -28,7 +28,7 @@ const mongoURI= database;
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(mongoURI);
+    const conn = await mongoose.connect("mongodb+srv://"+mongoURI);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.log(error);
