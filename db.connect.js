@@ -1,8 +1,11 @@
 const dotenv = require("dotenv");
 var mongoose = require("mongoose");
 
- dotenv.config({path: ".src/.env"});
+const database = process.env.DATABASE;
 
+dotenv.config({path: ".src/.env"});
+
+const mongoURI= database;
 //  const database = process.env.DATABASE;
 //  const folder = process.env.DB_FOLDER;
 
@@ -25,7 +28,7 @@ var mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect("mongodb+srv://tayuridan:ta24lyfebby@ta2hamid.hcudcgm.mongodb.net/hamid");
+    const conn = await mongoose.connect(mongoURI);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.log(error);
