@@ -1,6 +1,6 @@
 const Router = require("express").Router();
-const jual = require("../controllers/penjualan.js");
-const { jwtAuthenticate } = require("../middlewares/auth.js");
+const jual = require("../controllers/penjualan");
+const { jwtAuthenticate } = require("../middlewares/auth");
 
 Router.post(
     "/add",
