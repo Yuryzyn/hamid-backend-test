@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 var mongoose = require("mongoose");
 
- dotenv.config({path: "./src/.env"});
+ dotenv.config({path: ".src/.env"});
 
  const database = process.env.DATABASE;
  const folder = process.env.DB_FOLDER;
