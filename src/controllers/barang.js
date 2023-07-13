@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const barang = require("./../models/barang.js");
+const barang = require("./../models/barang");
 // const { deleteAkun, findAkun } = require("./login")
 const ObjectId = mongoose.Types.ObjectId;
 const Axios = require("axios");
