@@ -52,7 +52,6 @@ const PenjualanSchema = new mongoose.Schema({
     statusKirim : {
         type : String,
         default : "on-process"
-        // {"on-process", "deliver", "finished", "canceled"}
     },
     handleBy : {
         type : String,
