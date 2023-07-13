@@ -4,7 +4,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const Axios = require("axios");
 const { response } = require("express");
 const barang = require("../models/barang");
-const { create } = require("../models/penjualan.js");
+const { create } = require("../models/penjualan");
 const { promises } = require("dns");
 
 class GudangController {
