@@ -1,6 +1,7 @@
 {
   "name": "hamid-backend-node-v18",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "Ini adalah back-end (ONLINE) untuk aplikasi manajemen penjualan UD.Hamid II. menggunakan Cyclic Systemless Cloud dengan domain = https://hamid2backend.cyclic.app",
   "main": "./app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
