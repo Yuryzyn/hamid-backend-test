@@ -26,18 +26,15 @@ class BarangRusakController {
                 })
             }
         }).then((response)=>{
-            let nextStep = response.map((data)=>{
                 return stock.findOneAndUpdate({
-                    idBarang : data.idBarang
+                    idBarang : response.idBarang
                 },{
                     $inc:{
-                        jumlahBarang : -data.jumlahRusak,
-                        jumlahRusak : +data.jumlahRusak,
+                        jumlahBarang : -response.jumlahRusak,
+                        jumlahRusak : +response.jumlahRusak,
                     },
                     handleBy,
                 })
-            })
-            return Promise.all(nextStep);
         }).then((r)=>{
             res.status(200).json({
                 message: "Berhasil mengirim data barang retur"
