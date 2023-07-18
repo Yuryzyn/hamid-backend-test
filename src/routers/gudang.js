@@ -18,7 +18,7 @@ Router.post("/done-retur", retur.checkRetur);
 const barang = require("./../controllers/barang");
 Router.post("/add-item",upload.single("fotoBarang"), barang.addBarang);
 Router.get("/all-item", barang.findAllBarang);
-Router.post("/edit-item", barang.editBarang);
+Router.post("/edit-item", upload.single("fotoBarang"), barang.editBarang);
 
 const masuk = require("./../controllers/barangMasuk");
 Router.post("/add-restock",masuk.addBarangMasuk);
