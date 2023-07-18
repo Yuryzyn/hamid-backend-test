@@ -19,13 +19,15 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.hidePoweredBy({ setTo: "PHP 7.4.11" }));
 
+app.use("/fotoBarang", express.static("./fotoBarang"));
+
 app.use("/", router);
 
 app.use(require("./src/middlewares/error"));
 
 connectDB().then(() => {
   app.listen(PORT, () => {
-      console.log("listening for requests");
+      console.log(`Port : ${PORT}`);
   })
 })
 // server.listen(PORT, () => {
