@@ -19,7 +19,7 @@ class BarangController {
                     hargaBeli,
                     hargaJual,
                     fotoBarang : req.body.foto,
-                    handleBy : data.handleBy,
+                    handleBy,
                 }).then((r)=>{
                     res.status(200).json({
                         message: "Berhasil mengirim data barang",
