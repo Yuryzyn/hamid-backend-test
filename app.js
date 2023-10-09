@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.hidePoweredBy({ setTo: "PHP 7.4.11" }));
 
-app.use("/fotoBarang", express.static(path.join(__dirname,'fotoBarang')));
+app.use("/fotoBarang", express.static(path.join(__dirname,'./fotoBarang')));
 
 app.use("/", router);
 
