@@ -9,7 +9,7 @@ var fotobarang = multer.diskStorage({
     let filename = "barang-" + Date.now() + ".jpg";
 
     if (!req.body.foto) {
-      req.body.foto = process.env.SERVER + "/fotoBarang/" + filename;
+      req.body.foto = process.env.SERVER2 + "/fotoBarang/" + filename;
     }
 
     cb(null, filename);
