@@ -26,7 +26,7 @@ Router.get("/all-restock", masuk.daftarBarangMasuk);
 Router.post("/edit-restock", masuk.editDataBarangMasuk);
 Router.post("/done-restock", masuk.checkMarkBarangBaru);
 
-const keluar = require("../controllers/barangkeluar");
+const keluar = require("../controllers/barangKeluar");
 Router.get("/find-nota",keluar.findNoNota);
 Router.post("/calculate-nota",keluar.CalculateWithNota)
 Router.post("/add-deliver", keluar.createBarangKeluar);
