@@ -2,11 +2,11 @@
   "name": "hamid-backend",
   "version": "1.0.0",
   "description": "Ini adalah back-end untuk aplikasi manajemen penjualan UD.Hamid II. Menggunakan bahasa pemograman Javasript dan gaya penulisan promise chaining. MongoDB sebagai database, serta Express dan mongoose module yang ada di dalam NodeJS sebagai dependency utama.",
-  "main": "./src/app.js",
+  "main": "./app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/app.js",
-    "dev": "nodemon ./src/app.js"
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js"
   },
   "keywords": [],
   "author": "",
