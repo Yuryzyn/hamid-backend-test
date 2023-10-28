@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const jual = require("../models/penjualan");
+const jual = require("../models/penjualan.js");
 const ObjectId = mongoose.Types.ObjectId;
 const Axios = require("axios");
 const { response } = require("express");
@@ -10,80 +10,121 @@ const akun = require("../models/akun");
 
 class PenjualanController {
 
-    static addPenjualan(req, res, next){
-        let data = req.body
-
+    static addPenjualan(req, res, next) {
+        const data = req.body;
+    
         jual.create({
-            noNota : data.noNota,
-            idKaryawan : data.idKaryawan,
-            idPembeli : data.idPembeli,
-            idBarang : data.idBarang,
-            jumlahBeli : data.jumlahBeli,
-            alamatKirim : data.alamatKirim,
-            hargaTotal : data.hargaTotal,
-            tglKirim : data.tglKirim,
-            handleBy : data.handleBy
-        }).then((response)=>{
-            const barangId = response.idBarang
-            const jumlah = response.jumlahBeli
-            if(response.hargaTotal === 0){
-                return barang.findById({
-                    _id : barangId
-                }).then((tool)=>{
-                    const harga = tool.hargaJual;
-                    return jual.findByIdAndUpdate({
-                        _id : response._id
-                    },{
-                        $inc : {
-                            hargaTotal : harga * jumlah
-                        }
-                    })
-                })
-            }
-        }).then((r)=>{
+          noNota: data.noNota,
+          idKaryawan: data.idKaryawan,
+          idPembeli: data.idPembeli,
+          alamatKirim: data.alamatKirim,
+          tglKirim: data.tglKirim,
+          penjualanItems: [], // Inisialisasi array penjualanItems
+          hargaTotal: 0, // Inisialisasi hargaTotal
+        })
+          .then((response) => {
+            const penjualanItems = data.penjualanItems;
+    
+            // Simpan tipe barang dan jumlah beli untuk setiap item penjualan
+            const promises = penjualanItems.map((item) => {
+              const idBarang = item.idBarang;
+              const jumlahBeli = item.jumlahBeli;
+    
+              // Cari harga tipe barang
+              return barang.findById({ _id: idBarang }).then((tool) => {
+                const harga = tool.hargaJual;
+    
+                // Hitung harga total
+                const totalHargaItem = harga * jumlahBeli;
+    
+                // Push data item penjualan ke array penjualanItems di model
+                return jual
+                  .findByIdAndUpdate(
+                    { _id: response._id },
+                    {
+                      $push: {
+                        penjualanItems: {
+                          idBarang: idBarang,
+                          jumlahBeli: jumlahBeli,
+                          hargaPerItem: harga,
+                          totalHargaItem: totalHargaItem,
+                        },
+                      },
+                      $inc: {
+                        hargaTotal: totalHargaItem,
+                      },
+                    },
+                    { new: true } // Mengambil data yang telah diupdate
+                  );
+              });
+            });
+    
+            return Promise.all(promises);
+          })
+          .then((r) => {
             res.status(200).json({
-                message: "Berhasil mengirim data penjualan"
-            })
-        }).catch(next)
+              message: "Berhasil mengirim data penjualan",
+            });
+          })
+          .catch(next);
     }
 
-    static allPenjualan(req, res, next){
-        
-        jual.find({
-        }).then((response)=>{
-            let final = response.map((data)=>{
-                return barang.findById({_id : data.idBarang}).then((resBarang)=>{
-                    const barangFinal = {_id : resBarang._id, jenis : resBarang.jenis, merk : resBarang.merk, harga : resBarang.hargaJual}
-                    return pembeli.findById({_id : data.idPembeli}).then((resPembeli)=>{
-                        const pembeliFinal = {_id : resPembeli._id, nama : resPembeli.nama, tlpn : resPembeli.tlpn}
-                        return akun.findById({_id : data.idKaryawan}).then((resKaryawan)=>{
-                            const karyawanFinal = {_id : resKaryawan._id, nama : resKaryawan.nama, tlpn : resKaryawan.tlpn}
-                            return {
-                                _id : data._id,
-                                noNota : data.noNota,
-                                karyawan : karyawanFinal,
-                                pembeli : pembeliFinal,
-                                barang : barangFinal,
-                                nomorSuratJalan : data.nomorSuratJalan,
-                                jumlahBeli : data.jumlahBeli,
-                                alamatKirim : data.alamatKirim,
-                                hargaTotal : data.hargaTotal,
-                                statusKirim : data.statusKirim,
-                                handleBy : data.handleBy,
-                            }
-                        })
-                    })  
-                })
-            })
-            return Promise.all(final);
-        }).then((finalResult)=>{
+    static allPenjualan(req, res, next) {
+        jual
+          .find({})
+          .then((response) => {
+            const promises = response.map((data) => {
+              const penjualanItems = data.penjualanItems;
+    
+              // Mengambil data tipe barang dan pembeli untuk setiap item penjualan
+              const barangPromises = penjualanItems.map((item) => {
+                return barang
+                  .findById({ _id: item.idBarang })
+                  .then((resBarang) => ({
+                    _id: resBarang._id,
+                    jenis: resBarang.jenis,
+                    merk: resBarang.merk,
+                    harga: resBarang.hargaJual,
+                  }));
+              });
+    
+              const pembeliPromise = pembeli.findById({ _id: data.idPembeli });
+    
+              const karyawanPromise = akun.findById({ _id: data.idKaryawan });
+    
+              return Promise.all([Promise.all(barangPromises), pembeliPromise, karyawanPromise]).then(
+                ([barangFinal, pembeliFinal, karyawanFinal]) => {
+                  return {
+                    _id: data._id,
+                    noNota: data.noNota,
+                    karyawan: karyawanFinal,
+                    pembeli: pembeliFinal,
+                    penjualanItems: penjualanItems.map((item, index) => ({
+                      idBarang: item.idBarang,
+                      jumlahBeli: item.jumlahBeli,
+                      hargaPerItem: item.hargaPerItem,
+                      totalHargaItem: item.totalHargaItem,
+                      barang: barangFinal[index],
+                    })),
+                    nomorSuratJalan: data.nomorSuratJalan,
+                    alamatKirim: data.alamatKirim,
+                    hargaTotal: data.hargaTotal,
+                    statusKirim: data.statusKirim,
+                  };
+                }
+              );
+            });
+    
+            return Promise.all(promises);
+          })
+          .then((finalResult) => {
             res.status(200).json({
-                data : finalResult,
-                message: "Berhasil memuat semua data penjualan"
-            })
-        }).catch(next)
-
-    }
+              data: finalResult,
+              message: "Berhasil memuat semua data penjualan",
+            });
+          })
+          .catch(next);
+      }
 
     static checkPengiriman(req, res, next){
         let data = req.body
@@ -224,7 +265,7 @@ class PenjualanController {
             }
         }).then((r)=>{
             res.status(200).json({
-                message : "Berhasil checkmark barang yang masuk!"
+                message : "Berhasil checkmark barang yang di kirim!"
             })
         }).catch(next)
 

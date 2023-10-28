@@ -30,10 +30,6 @@ const BarangMasukSchema = new mongoose.Schema({
         type : String,
         default : "belum diterima",
     },
-    handleBy : {
-        type : String,
-        default : "",
-    },
     
 },{
     versionKey : false,

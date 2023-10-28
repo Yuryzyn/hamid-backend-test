@@ -13,7 +13,6 @@ class PembeliController {
             tlpn,
             nik,
             alamat,
-            editBy
         }).then((r)=>{
             res.status(200).json({
                 message: "Berhasil mengirim data pembeli"
@@ -64,7 +63,6 @@ class PembeliController {
             tlpn : data.tlpn,
             nik  : data.nik,
             alamat : data.alamat,
-            editBy : data.editBy,
 
         }).then((r)=>{
             res.status(200).json({

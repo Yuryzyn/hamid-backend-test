@@ -11,8 +11,7 @@ const server = require("http").Server(app);
 dotenv.config({path: "./src/.env"});
 const PORT = process.env.PORT;
 
-// require("./db.connect")();
-connectDB = require("./db.connect");
+require("./db.connect")();
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -26,11 +25,6 @@ app.use("/", router);
 
 app.use(require("./src/middlewares/error"));
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-      console.log(`Port : ${PORT}`);
-  })
-})
-// server.listen(PORT, () => {
-//   console.log("PORT : "+PORT);
-// });
+server.listen(PORT, () => {
+  console.log("PORT : "+PORT);
+});

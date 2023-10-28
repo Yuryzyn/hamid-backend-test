@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const barang = require("./../models/barang");
+const barang = require("./../models/barang.js");
 // const { deleteAkun, findAkun } = require("./login")
 const ObjectId = mongoose.Types.ObjectId;
 const Axios = require("axios");
@@ -19,7 +19,6 @@ class BarangController {
                     hargaBeli,
                     hargaJual,
                     fotoBarang : req.body.foto,
-                    handleBy,
                 }).then((r)=>{
                     res.status(200).json({
                         message: "Berhasil mengirim data barang",
@@ -54,7 +53,6 @@ class BarangController {
             hargaBeli,
             hargaJual,
             fotoBarang : req.body.foto,
-            handleBy
         }).then((r)=>{
             res.status(200).json({
                 message: "Berhasil edit data barang"
@@ -62,6 +60,8 @@ class BarangController {
         }).catch(next)
 
     }
+
+    
 }
 
 module.exports = BarangController;

@@ -1,32 +1,33 @@
 {
-  "name": "hamid-backend-node-v18",
-  "version": "1.0.1",
-  "description": "Ini adalah back-end (ONLINE) untuk aplikasi manajemen penjualan UD.Hamid II. menggunakan Cyclic Systemless Cloud dengan domain = https://hamid2backend.cyclic.app",
-  "main": "./app.js",
+  "name": "hamid-backend",
+  "version": "1.0.0",
+  "description": "Ini adalah back-end untuk aplikasi manajemen penjualan UD.Hamid II. Menggunakan bahasa pemograman Javasript dan gaya penulisan promise chaining. MongoDB sebagai database, serta Express dan mongoose module yang ada di dalam NodeJS sebagai dependency utama.",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./app.js",
-    "dev": "nodemon ./app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "axios": "^1.4.0",
+    "axios": "^1.5.1",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^7.0.0",
-    "jsonwebtoken": "^9.0.1",
+    "jsonwebtoken": "^9.0.0",
     "moment-timezone": "^0.5.43",
-    "mongodb": "^5.7.0",
-    "mongoose": "^7.3.4",
+    "mongodb": "^5.4.0",
+    "mongoose": "^7.0.1",
     "multer": "^1.4.5-lts.1",
-    "node": "^16.16.0",
-    "nodemon": "^3.0.1"
+    "node": "^18.0.0",
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7"
   }
 }

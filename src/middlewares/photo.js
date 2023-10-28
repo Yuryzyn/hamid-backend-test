@@ -10,6 +10,7 @@ var fotobarang = multer.diskStorage({
 
     if (!req.body.foto) {
       req.body.foto = process.env.SERVER2 + "/fotoBarang/" + filename;
+      // req.body.foto = "http://localhost:9000/fotoBarang/" + filename;
     }
 
     cb(null, filename);

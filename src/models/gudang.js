@@ -18,11 +18,6 @@ const gudangSchema = new mongoose.Schema({
         Default : 0,
 
     },
-    handleBy : {
-        type : String,
-        default : "",
-
-    }
     
 },{
     versionKey : false,

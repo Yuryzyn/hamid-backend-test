@@ -1,10 +1,10 @@
 const { response, request } = require("express")
 const Axios = require("axios");
 const mongoose = require("mongoose");
-const { generateTokenWOExp, generateTokenWithExp } = require("../helpers/token");
-const { checkPass, hashPass } = require("../helpers/hash");
+const { generateTokenWOExp, generateTokenWithExp } = require("../helpers/token.js");
+const { checkPass, hashPass } = require("../helpers/hash.js");
 const ObjectId = mongoose.Types.ObjectId;
-const akun = require("../models/akun");
+const akun = require("../models/akun.js");
 
 class Controller{
     

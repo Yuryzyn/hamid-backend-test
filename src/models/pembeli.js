@@ -22,11 +22,6 @@ const PembeliSchema = new mongoose.Schema({
         require : [true,"Alamat harus di isi!"],
 
     },
-    handleBy : {
-        type : String,
-        default : "",
-
-    }
     
 },{
     versionKey : false,

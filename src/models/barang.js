@@ -27,11 +27,6 @@ const BarangSchema = new mongoose.Schema({
         default : "tidak ada foto",
 
     },
-    handleBy : {
-        type : String,
-        default : "",
-
-    },
     
 
 },{

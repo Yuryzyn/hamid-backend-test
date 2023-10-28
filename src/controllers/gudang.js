@@ -4,7 +4,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const Axios = require("axios");
 const { response } = require("express");
 const barang = require("../models/barang");
-const { create } = require("../models/penjualan");
+const { create } = require("../models/penjualan.js");
 const { promises } = require("dns");
 
 class GudangController {
@@ -18,7 +18,6 @@ class GudangController {
                 return gudang.create({
                     idBarang : data.idBarang,
                     jumlahBarang : data.jumlahBarang,
-                    handleBy : data.handleBy,
                 })
             } else {
                 return gudang.updateOne({idBarang : data.idBarang},{

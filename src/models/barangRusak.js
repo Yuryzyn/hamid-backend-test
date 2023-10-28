@@ -22,10 +22,6 @@ const barangRusakSchema = new mongoose.Schema({
         default : "belum retur",
 
     },
-    handleBy : {
-        type : String,
-        default : "",
-    }
     
 },{
     versionKey : false,

@@ -29,7 +29,6 @@ class barangMasukController {
                         totalHargaBeli : data.totalHargaBeli,
                         tanggalTerima : data.tanggalTerima,
                         nomorSuratJalan : data.nomorSuratJalan,
-                        handleBy : data.handleBy,
                     })
                 })
             } else {
@@ -40,7 +39,6 @@ class barangMasukController {
                     totalHargaBeli : data.totalHargaBeli,
                     tanggalTerima : data.tanggalTerima,
                     nomorSuratJalan : data.nomorSuratJalan,
-                    handleBy : data.handleBy,
                 })
             }
         }).then((response3)=>{
@@ -72,7 +70,6 @@ class barangMasukController {
             jumlahMasuk, 
             tanggalTerima, 
             nomorSuratJalan,
-            handleBy,
         }
         ).then((response)=>{
             res.status(200).json({
