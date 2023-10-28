@@ -1,17 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const router = require("./src/routers/index");
+const router = require("../src/routers/index");
 const helmet = require("helmet");
 const path = require('path');
 
 const app = express();
 const server = require("http").Server(app);
 
-dotenv.config({path: "./src/.env"});
+dotenv.config({path: "../src/.env"});
 const PORT = process.env.PORT;
 
-require("./db.connect")();
+require("../db.connect")();
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +23,7 @@ app.use("/fotoBarang", express.static(path.join(__dirname,'./fotoBarang')));
 
 app.use("/", router);
 
-app.use(require("./src/middlewares/error"));
+app.use(require("../src/middlewares/error"));
 
 server.listen(PORT, () => {
   console.log("PORT : "+PORT);
