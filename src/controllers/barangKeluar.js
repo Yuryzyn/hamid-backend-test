@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const barangKeluar = require("../models/barangkeluar.js");
+const barangKeluar = require("../models/barangKeluar.js");
 const penjualan = require("../models/penjualan.js");
 const barang = require("../models/barang.js")
 
