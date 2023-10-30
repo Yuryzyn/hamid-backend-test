@@ -231,44 +231,57 @@ class BarangKeluarController {
 
     static allBarangKeluar(req, res, next) {
         // Cari semua data barang keluar.
-        barangKeluar
-      .find({})
-      .then((barangKeluarData) => {
-        const promises = barangKeluarData.map((item) => {
-          const barangKeluarItems = item.barangKeluarItems;
+        
+            barangKeluar.find().populate({
+                path: 'barangKeluarItems.idBarang',
+                model: 'barang',
+            })
+            .then((barangKeluarData)=>{
+                if (!barangKeluarData) {
+                    return res.status(404).json({
+                        message: 'Data barang keluar tidak ditemukan.',
+                    });
+                }
+              
+                const formattedBarangKeluar = barangKeluarData.map((barangKeluar) => {
+                    return {
+                        _id: barangKeluar._id,
+                        noNota: barangKeluar.noNota,
+                        barangKeluarItems: barangKeluar.barangKeluarItems.map((item) => {
+                            const detailBarang = {
+                                _id: item.idBarang._id,
+                                jenis: item.idBarang.jenis,
+                                merk: item.idBarang.merk,
+                                hargaBeli: item.idBarang.hargaBeli,
+                                hargaJual: item.idBarang.hargaJual,
+                                fotoBarang: item.idBarang.fotoBarang,
+                            };
+                            
+                            return {
+                                idBarang: item.idBarang._id,
+                                detailBarang,
+                                jumlahKeluar: item.jumlahKeluar,
+                                // BarangBelumDikirim: {
+                                    // sisaJumlah: item.idBarang.stok - item.jumlahKeluar,
+                                // },
+                                _id: item._id,
+                            };
+                        
+                        }),
+                        nomorSuratJalan: barangKeluar.nomorSuratJalan,
+                        statusKirim: barangKeluar.statusKirim,
+                        create: barangKeluar.create,
+                        update: barangKeluar.update
+                    };
+                });
+              
+                return res.status(200).json({
+                    data: formattedBarangKeluar,
+                    message: 'Data barang keluar berhasil ditemukan.',
+                });
 
-          const detailPromises = barangKeluarItems.map(async (barangKeluarItem) => {
-            return barang
-              .findById(barangKeluarItem.idBarang)
-              .then((detailBarang) => {
-                barangKeluarItem.detailBarang = {
-                  _id: detailBarang._id,
-                  jenis: detailBarang.jenis,
-                  merk: detailBarang.merk,
-                  hargaBeli: detailBarang.hargaBeli,
-                  hargaJual: detailBarang.hargaJual,
-                  fotoBarang: detailBarang.fotoBarang || "Tidak Ada Foto!",
-                };
-                return barangKeluarItem;
-              });
-          });
-
-          return Promise.all(detailPromises).then((barangKeluarItemsWithDetails) => {
-            console.log(item.barangKeluarItems)
-            item.barangKeluarItems = barangKeluarItemsWithDetails;
-            return item;
-          });
-        });
-
-        return Promise.all(promises).then((barangKeluarDataWithDetails) => {
-          res.status(200).json({
-            data: barangKeluarDataWithDetails,
-            message: "Berhasil menemukan semua data barang keluar dengan detail barang.",
-          });
-        });
-      })
-      .catch(next);
-  }
+        }).catch(next);
+    }
 
 }
 
