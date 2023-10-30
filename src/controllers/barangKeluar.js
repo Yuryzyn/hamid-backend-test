@@ -200,24 +200,76 @@ class BarangKeluarController {
                 statusKirim: statusKirim,
             });
 
-            return newBarangKeluar.save().then(() => {
+            return newBarangKeluar.save().then((savedBarangKeluar) => {
                 if (statusKirim === "deliver") {
                     const totalPenjualanItems = penjualanData.penjualanItems.reduce((total, item) => total + item.jumlahBeli, 0);
-
+    
                     if (totalPenjualanItems === totalBarangKeluarItems) {
-                        return penjualan.updateOne({ noNota: noNota }, { statusKirim: "deliver" });
+                        return penjualan.updateOne({ noNota: noNota }, { statusKirim: "deliver" }).then(() => {
+                            res.status(200).json({
+                                message: "Data Barang Keluar telah berhasil dibuat.",
+                                data: savedBarangKeluar, // Mengembalikan data yang telah disimpan
+                            });
+                        });
                     } else {
-                        return penjualan.updateOne({ noNota: noNota }, { statusKirim: "half-deliver" });
+                        return penjualan.updateOne({ noNota: noNota }, { statusKirim: "half-deliver" }).then(() => {
+                            res.status(200).json({
+                                message: "Data Barang Keluar telah berhasil dibuat.",
+                                data: savedBarangKeluar, // Mengembalikan data yang telah disimpan
+                            });
+                        });
                     }
+                } else {
+                    res.status(200).json({
+                        message: "Data Barang Keluar telah berhasil dibuat.",
+                        data: savedBarangKeluar, // Mengembalikan data yang telah disimpan
+                    });
                 }
             });
-        })
-        .then(() => {
-            res.status(200).json({
-                message: "Data Barang Keluar telah berhasil dibuat.",
-            });
         }).catch(next);
-    } 
+    }
+
+    static allBarangKeluar(req, res, next) {
+        // Cari semua data barang keluar.
+        barangKeluar
+      .find({})
+      .then((barangKeluarData) => {
+        const promises = barangKeluarData.map((item) => {
+          const barangKeluarItems = item.barangKeluarItems;
+
+          const detailPromises = barangKeluarItems.map(async (barangKeluarItem) => {
+            return barang
+              .findById(barangKeluarItem.idBarang)
+              .then((detailBarang) => {
+                barangKeluarItem.detailBarang = {
+                  _id: detailBarang._id,
+                  jenis: detailBarang.jenis,
+                  merk: detailBarang.merk,
+                  hargaBeli: detailBarang.hargaBeli,
+                  hargaJual: detailBarang.hargaJual,
+                  fotoBarang: detailBarang.fotoBarang || "Tidak Ada Foto!",
+                };
+                return barangKeluarItem;
+              });
+          });
+
+          return Promise.all(detailPromises).then((barangKeluarItemsWithDetails) => {
+            console.log(item.barangKeluarItems)
+            item.barangKeluarItems = barangKeluarItemsWithDetails;
+            return item;
+          });
+        });
+
+        return Promise.all(promises).then((barangKeluarDataWithDetails) => {
+          res.status(200).json({
+            data: barangKeluarDataWithDetails,
+            message: "Berhasil menemukan semua data barang keluar dengan detail barang.",
+          });
+        });
+      })
+      .catch(next);
+  }
+
 }
 
 module.exports = BarangKeluarController;

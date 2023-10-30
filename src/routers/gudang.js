@@ -30,5 +30,6 @@ const keluar = require("../controllers/barangKeluar");
 Router.get("/find-nota",keluar.findNoNota);
 Router.post("/calculate-nota",keluar.CalculateWithNota)
 Router.post("/add-deliver", keluar.createBarangKeluar);
+Router.get("/all-deliver",keluar.allBarangKeluar);
 
 module.exports = Router;
