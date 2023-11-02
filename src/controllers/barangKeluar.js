@@ -10,10 +10,17 @@ class BarangKeluarController {
             statusKirim: { $in: ["on-process", "half-deliver"] },
 
         }).then((noNotaList) => {
-            res.status(200).json({
-                data: noNotaList,
-                message: "Berhasil menemukan semua noNota dengan status on-process atau half-deliver.",
-            });
+            if(noNotaList.length == 0){
+                throw {
+                    status: 404,
+                    message: "noNota dengan status on-process atau half-deliver tidak ditemukan atau sudah selesai dikirim.",
+                    };
+            }else{
+                res.status(200).json({
+                    data: noNotaList,
+                    message: "Berhasil menemukan semua noNota dengan status on-process atau half-deliver.",
+                });
+            }
 
         }).catch(next);
     }
@@ -29,8 +36,8 @@ class BarangKeluarController {
         .then((data) => {
             if (data.length === 0) {
                 throw {
-                status: 404,
-                message: "Data dengan noNota tersebut tidak ditemukan atau sudah selesai dikirim.",
+                    status: 404,
+                    message: "Data dengan noNota tersebut tidak ditemukan atau sudah selesai dikirim.",
                 };
             }
             penjualanData = data[0];
@@ -181,30 +188,28 @@ class BarangKeluarController {
                 }
     
                 const totalBarangKeluarItems = barangKeluarItems.reduce((total, item) => total + item.jumlahKeluar, 0);
-    
+                
                 if (totalBarangKeluarItems > 1000) {
                     return res.status(400).json({
                         message: "Total barang yang dikirim tidak boleh lebih dari 1000.",
                     });
                 }
-    
-                const dataKeluar1 = barangKeluarItems.reduce((total, item) => total + item.jumlahKeluar, 0);
 
-                const dataKeluar2Promise = barangKeluar.find({ noNota: penjualanData.noNota });
+                const dataKeluarPromise = barangKeluar.find({ noNota: penjualanData.noNota });
                 const statusKirim = nomorSuratJalan ? "deliver" : "on-process";
     
-                return Promise.all([dataKeluar2Promise])
+                return Promise.all([dataKeluarPromise])
                     .then(([barangKeluarData]) => {
-                        let dataKeluar2 = 0;
+                        let dataKeluar = 0;
                         if (barangKeluarData) {
                             barangKeluarData.forEach((item) => {
                                 item.barangKeluarItems.forEach((barangKeluarItem) => {
-                                    dataKeluar2 += barangKeluarItem.jumlahKeluar;
+                                    dataKeluar += barangKeluarItem.jumlahKeluar;
                                 });
                             });
                         }
     
-                        const dataKeluarFinal = dataKeluar1 + dataKeluar2;
+                        const dataKeluarFinal = totalBarangKeluarItems + dataKeluar;
     
                         const newBarangKeluar = new barangKeluar({
                             noNota: noNota,
@@ -212,7 +217,11 @@ class BarangKeluarController {
                             nomorSuratJalan: nomorSuratJalan || "belum ada surat jalan",
                             statusKirim: statusKirim,
                         });
-    
+
+                        // console.log(dataKeluar1)
+                        // console.log(dataKeluar2)
+                        // console.log(dataKeluarFinal)
+
                         return newBarangKeluar.save().then((savedBarangKeluar) => {
                             if (statusKirim === "deliver") {
                                 const totalPenjualanItems = penjualanData.penjualanItems.reduce((total, item) => total + item.jumlahBeli, 0);
@@ -238,16 +247,13 @@ class BarangKeluarController {
                                     data: savedBarangKeluar,
                                 });
                             }
-                            console.log(dataKeluar1)
-                            console.log(dataKeluar2)
-                            console.log(dataKeluarFinal)
+                            
                         });
                     });
             })
             .catch(next);
     }
     
-
     static allBarangKeluar(req, res, next) {
         
             barangKeluar.find().populate({
