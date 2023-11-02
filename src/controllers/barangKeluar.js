@@ -171,66 +171,84 @@ class BarangKeluarController {
   
     static createBarangKeluar(req, res, next) {
         const { noNota, nomorSuratJalan, barangKeluarItems } = req.body;
-
-        penjualan.findOne({ 
-            noNota: noNota
-
-        })
-        .then((penjualanData) => {
-            if (!penjualanData) {
-                return res.status(404).json({
-                    message: "NoNota tidak ditemukan dalam database Penjualan.",
-                });
-            }
-
-            const totalBarangKeluarItems = barangKeluarItems.reduce((total, item) => total + item.jumlahKeluar, 0);
-
-            if (totalBarangKeluarItems > 1000) {
-                return res.status(400).json({
-                    message: "Total barang yang dikirim tidak boleh lebih dari 1000.",
-                });
-            }
-
-            const statusKirim = nomorSuratJalan ? "deliver" : "on-process";
-
-            const newBarangKeluar = new barangKeluar({
-                noNota: noNota,
-                barangKeluarItems: barangKeluarItems,
-                nomorSuratJalan: nomorSuratJalan || "belum ada surat jalan",
-                statusKirim: statusKirim,
-            });
-
-            return newBarangKeluar.save().then((savedBarangKeluar) => {
-                if (statusKirim === "deliver") {
-                    const totalPenjualanItems = penjualanData.penjualanItems.reduce((total, item) => total + item.jumlahBeli, 0);
     
-                    if (totalPenjualanItems === totalBarangKeluarItems) {
-                        return penjualan.updateOne({ noNota: noNota }, { statusKirim: "deliver" }).then(() => {
-                            res.status(200).json({
-                                message: "Data Barang Keluar telah berhasil dibuat.",
-                                data: savedBarangKeluar, // Mengembalikan data yang telah disimpan
-                            });
-                        });
-                    } else {
-                        return penjualan.updateOne({ noNota: noNota }, { statusKirim: "half-deliver" }).then(() => {
-                            res.status(200).json({
-                                message: "Data Barang Keluar telah berhasil dibuat.",
-                                data: savedBarangKeluar, // Mengembalikan data yang telah disimpan
-                            });
-                        });
-                    }
-                } else {
-                    res.status(200).json({
-                        message: "Data Barang Keluar telah berhasil dibuat.",
-                        data: savedBarangKeluar, // Mengembalikan data yang telah disimpan
+        penjualan.findOne({ noNota: noNota })
+            .then((penjualanData) => {
+                if (!penjualanData) {
+                    return res.status(404).json({
+                        message: "NoNota tidak ditemukan dalam database Penjualan.",
                     });
                 }
-            });
-        }).catch(next);
+    
+                const totalBarangKeluarItems = barangKeluarItems.reduce((total, item) => total + item.jumlahKeluar, 0);
+    
+                if (totalBarangKeluarItems > 1000) {
+                    return res.status(400).json({
+                        message: "Total barang yang dikirim tidak boleh lebih dari 1000.",
+                    });
+                }
+    
+                const dataKeluar1 = barangKeluarItems.reduce((total, item) => total + item.jumlahKeluar, 0);
+
+                const dataKeluar2Promise = barangKeluar.find({ noNota: penjualanData.noNota });
+                const statusKirim = nomorSuratJalan ? "deliver" : "on-process";
+    
+                return Promise.all([dataKeluar2Promise])
+                    .then(([barangKeluarData]) => {
+                        let dataKeluar2 = 0;
+                        if (barangKeluarData) {
+                            barangKeluarData.forEach((item) => {
+                                item.barangKeluarItems.forEach((barangKeluarItem) => {
+                                    dataKeluar2 += barangKeluarItem.jumlahKeluar;
+                                });
+                            });
+                        }
+    
+                        const dataKeluarFinal = dataKeluar1 + dataKeluar2;
+    
+                        const newBarangKeluar = new barangKeluar({
+                            noNota: noNota,
+                            barangKeluarItems: barangKeluarItems,
+                            nomorSuratJalan: nomorSuratJalan || "belum ada surat jalan",
+                            statusKirim: statusKirim,
+                        });
+    
+                        return newBarangKeluar.save().then((savedBarangKeluar) => {
+                            if (statusKirim === "deliver") {
+                                const totalPenjualanItems = penjualanData.penjualanItems.reduce((total, item) => total + item.jumlahBeli, 0);
+    
+                                if (totalPenjualanItems === dataKeluarFinal) {
+                                    return penjualan.updateOne({ noNota: noNota }, { statusKirim: "deliver" }).then(() => {
+                                        res.status(200).json({
+                                            message: "Data Barang Keluar telah berhasil dibuat.",
+                                            data: savedBarangKeluar,
+                                        });
+                                    });
+                                } else {
+                                    return penjualan.updateOne({ noNota: noNota }, { statusKirim: "half-deliver" }).then(() => {
+                                        res.status(200).json({
+                                            message: "Data Barang Keluar telah berhasil dibuat.",
+                                            data: savedBarangKeluar,
+                                        });
+                                    });
+                                }
+                            } else {
+                                res.status(200).json({
+                                    message: "Data Barang Keluar telah berhasil dibuat.",
+                                    data: savedBarangKeluar,
+                                });
+                            }
+                            console.log(dataKeluar1)
+                            console.log(dataKeluar2)
+                            console.log(dataKeluarFinal)
+                        });
+                    });
+            })
+            .catch(next);
     }
+    
 
     static allBarangKeluar(req, res, next) {
-        // Cari semua data barang keluar.
         
             barangKeluar.find().populate({
                 path: 'barangKeluarItems.idBarang',
@@ -261,9 +279,6 @@ class BarangKeluarController {
                                 idBarang: item.idBarang._id,
                                 detailBarang,
                                 jumlahKeluar: item.jumlahKeluar,
-                                // BarangBelumDikirim: {
-                                    // sisaJumlah: item.idBarang.stok - item.jumlahKeluar,
-                                // },
                                 _id: item._id,
                             };
                         
