@@ -1,0 +1,1590 @@
+{
+	"info": {
+		"_postman_id": "82438c61-5e30-43bd-83e4-e7358f01f372",
+		"name": "hamid-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22578542"
+	},
+	"item": [
+		{
+			"name": "manajemen gudang",
+			"item": [
+				{
+					"name": "barang rusak",
+					"item": [
+						{
+							"name": "tambah data barang rusak",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "idBarang",
+											"value": "646e3e3ea48e4886b8af6bb5",
+											"type": "text"
+										},
+										{
+											"key": "keteranganRusak",
+											"value": "Rusak saat pengiriman menuju alamat tertera",
+											"type": "text"
+										},
+										{
+											"key": "jumlahRusak",
+											"value": "40",
+											"type": "text"
+										},
+										{
+											"key": "idKirim",
+											"value": "655b5051d834b875d015f3b0",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/add-rusak"
+							},
+							"response": []
+						},
+						{
+							"name": "check mark done retur",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "64b799da062aac547f5887ba",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server-online}}/gudang/done-retur",
+									"host": [
+										"{{server-online}}"
+									],
+									"path": [
+										"gudang",
+										"done-retur"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "semua data barang rusak",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{server-online}}/gudang/all-rusak",
+									"host": [
+										"{{server-online}}"
+									],
+									"path": [
+										"gudang",
+										"all-rusak"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "U2FsdGVkX18o+p1bBv6Oo/jLIQY0/xhTmw+MAC8pPFrHnmZrDRY0W6FJkxpSEKQpEU8zOAU+pSLloSSMaXwgRtHZQbh4qbtqVopl4sze7MXbd93YUVyqTP5uvB8ofYUgo92bCnQlzP3qqZ+n4DcV9DfCJ/AexxpxNyhJGmygGR9a6C+gc344l/vPkvJxRl6Ai9wkXbsj9ydEPA9Sjp4HH8k6kzvsEOpzH96Ite8/H6RUn3xPlWpqnYsErnfpkFOlGc/rs62uxTBGSA6YiuJz8G0BuTe3rBOyQyKShnIYRBY=",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit keterangan rusak",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "646f19af8eeb41a879c17e42",
+											"type": "text"
+										},
+										{
+											"key": "keteranganRusak",
+											"value": "waduh",
+											"type": "text"
+										},
+										{
+											"key": "jumlahRusak",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server-online}}/gudang/edit-rusak",
+									"host": [
+										"{{server-online}}"
+									],
+									"path": [
+										"gudang",
+										"edit-rusak"
+									],
+									"query": [
+										{
+											"key": "_id",
+											"value": "646f19af8eeb41a879c17e42",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "gudang",
+					"item": [
+						{
+							"name": "tambah data stok manual",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "idBarang",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "jumlahBarang",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "handleBy",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/add-stock"
+							},
+							"response": []
+						},
+						{
+							"name": "semua data gudang",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{server-online}}/gudang/all-stock"
+							},
+							"response": []
+						},
+						{
+							"name": "edit stok manual",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "jumlahBarang",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/edit-stock"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "barang",
+					"item": [
+						{
+							"name": "tambah barang",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "jenis",
+											"value": "1A",
+											"type": "text"
+										},
+										{
+											"key": "merk",
+											"value": "GEMINI",
+											"type": "text"
+										},
+										{
+											"key": "hargaBeli",
+											"value": "5200",
+											"type": "text"
+										},
+										{
+											"key": "hargaJual",
+											"value": "5460",
+											"type": "text"
+										},
+										{
+											"key": "fotoBarang",
+											"type": "file",
+											"src": "/C:/Users/mamad/Downloads/cc40bd2d-819d-40da-b6a3-1ca5386f6f91.jpg"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/add-item"
+							},
+							"response": []
+						},
+						{
+							"name": "semua data barang",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{server-online}}/gudang/all-item",
+									"host": [
+										"{{server-online}}"
+									],
+									"path": [
+										"gudang",
+										"all-item"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit data barang",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "_id",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "jenis",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "merk",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "hargaBeli",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "hargaJual",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "fotoBarang",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/edit-item"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "masuk",
+					"item": [
+						{
+							"name": "tambah barang masuk",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "idBarang",
+											"value": "647846ccd972cf802551c34a",
+											"type": "text"
+										},
+										{
+											"key": "keterangan",
+											"value": "Restok barang yang ada di gudang",
+											"type": "text"
+										},
+										{
+											"key": "jumlahMasuk",
+											"value": "2000",
+											"type": "text"
+										},
+										{
+											"key": "tanggalTerima",
+											"value": "2023-06-01",
+											"type": "text"
+										},
+										{
+											"key": "idKurir",
+											"value": "6557897e41640d574f47823a",
+											"type": "text"
+										},
+										{
+											"key": "nomorSuratJalan",
+											"value": "A123B456C789",
+											"type": "text"
+										},
+										{
+											"key": "handleBy",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/add-restock"
+							},
+							"response": []
+						},
+						{
+							"name": "edit data barang masuk",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "idBarang",
+											"value": "647846ccd972cf802551c34a",
+											"type": "text"
+										},
+										{
+											"key": "keterangan",
+											"value": "Restok barang yang ada di gudang",
+											"type": "text"
+										},
+										{
+											"key": "jumlahMasuk",
+											"value": "2000",
+											"type": "text"
+										},
+										{
+											"key": "tanggalTerima",
+											"value": "2023-06-01",
+											"type": "text"
+										},
+										{
+											"key": "idKurir",
+											"value": "6557897e41640d574f47823a",
+											"type": "text"
+										},
+										{
+											"key": "nomorSuratJalan",
+											"value": "A123B456C789",
+											"type": "text"
+										},
+										{
+											"key": "handleBy",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/add-restock"
+							},
+							"response": []
+						},
+						{
+							"name": "semua data barang masuk",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{server-online}}/gudang/all-restock"
+							},
+							"response": []
+						},
+						{
+							"name": "checkmark barang masuk",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "U2FsdGVkX1+iZ6tOH+LPWLkEwqqlhdNwL1MtJmSSaT6SUMyMhSTAvdYZjB1ohKcQBxVd3830HRfFsDmAOMm1yHNn6HUXeQuBLKLk4GLNNLHmiP1bEQwa6IODPasfFNTNWHRaMC4HSTbqRzSA1iSG+27ue+yxkF3NhxFjvy4GkzH6N4zMjvSRhKJsW85rMIn0JAZn5tFr4Cao9rhY0fv5HFK7oSSHO62DuDIHVW04CxJrKZqoeAOEwthKvd9Nexr8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "64839eaf9b25ac9ea4fccf88",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/done-restock"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "keluar",
+					"item": [
+						{
+							"name": "kalkulasi pengiriman dengan nota",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "noNota",
+											"value": "AA8",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/calculate-nota"
+							},
+							"response": []
+						},
+						{
+							"name": "tambah barang keluar",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"noNota\": \"AA8\",\n  \"barangKeluarItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahKeluar\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahKeluar\": 100\n    }\n  ],\n  \"idKurir\" : \"6557897e41640d574f47823a\",\n  \"nomorSuratJalan\": \"123456767543243456543\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{server-online}}/gudang/add-deliver"
+							},
+							"response": []
+						},
+						{
+							"name": "cari nota tersedia",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{server-online}}/gudang/find-nota"
+							},
+							"response": []
+						},
+						{
+							"name": "semua barang keluar",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": "{{server-online}}/gudang/all-deliver"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "manajemen aktor",
+			"item": [
+				{
+					"name": "Akun",
+					"item": [
+						{
+							"name": "tambah akun",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "646debcf3f494f685d9f8c59",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "harun",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "0987",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/akun/add-account"
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "yuridan",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345",
+											"type": "text"
+										},
+										{
+											"key": "token",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": "{{server-online}}/akun/login"
+							},
+							"response": []
+						},
+						{
+							"name": "reset username & password",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "U2FsdGVkX18HAc+f7VJ4ekS9FbAtuUyxEx1Ycq4SwxuD6ksrbNBkflDTP2WP2VNT6ozd/prAtjr0CSyQXfDzizjEZu4Q3WPzGmSwFqK/I1AMlPfAbQITnXbCb1LbYMAT8WOYL+lajOiuFnNVvxIXBkJwxhmNxU8RjGEtrRlOJxn+lqQ36JsebshNCa4VGgsXTXW2LX+rjrTWfNTKNRk8GH+UgpXShCFvOgP1NSRalTKu7MqFw2lzYrZXb9jcF5F7yKjjRqhtM7XJZd1wuxkLT7jTZRn5sEypyRg+juDKnsA=",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "idKaryawan",
+											"value": "646dd90cc8d8ac3066fa0288",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "yuridan",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/akun/update-account"
+							},
+							"response": []
+						},
+						{
+							"name": "refresh login",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "yuridan",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": "{{server-online}}/akun/refresh"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "karyawan",
+					"item": [
+						{
+							"name": "tambah karyawan",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "nama",
+											"value": "Harun Al Rasyid",
+											"type": "text"
+										},
+										{
+											"key": "tlpn",
+											"value": "081234565555",
+											"type": "text"
+										},
+										{
+											"key": "nik",
+											"value": "351512345675555",
+											"type": "text"
+										},
+										{
+											"key": "alamat",
+											"value": "Bebekan Masjid, no 10, Taman, Sidoarjo",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "4",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:9000/akun/add-karyawan"
+							},
+							"response": []
+						},
+						{
+							"name": "edit karyawan",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "646dda7bf6248ae6ce0b46e2",
+											"type": "text"
+										},
+										{
+											"key": "nama",
+											"value": "H. Hamid",
+											"type": "text"
+										},
+										{
+											"key": "tlpn",
+											"value": "081234567890",
+											"type": "text"
+										},
+										{
+											"key": "nik",
+											"value": "35151234567890",
+											"type": "text"
+										},
+										{
+											"key": "alamat",
+											"value": "Bebekan Masjid no.29, Taman, Sidoarjo",
+											"type": "text"
+										},
+										{
+											"key": "inf",
+											"value": "Test",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": "Aktif",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "editBy",
+											"value": "A002",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": "{{server-online}}/akun/patch-karyawan"
+							},
+							"response": []
+						},
+						{
+							"name": "semua data karyawan",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": {
+										"algorithm": "HS256",
+										"isSecretBase64Encoded": false,
+										"payload": "{}",
+										"addTokenTo": "header",
+										"headerPrefix": "Bearer",
+										"queryParamKey": "token",
+										"header": "{}"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "mamad",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "nama",
+											"value": "Yuridan Zindani",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "role",
+											"value": "1",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "token",
+											"value": "U2FsdGVkX18HAc+f7VJ4ekS9FbAtuUyxEx1Ycq4SwxuD6ksrbNBkflDTP2WP2VNT6ozd/prAtjr0CSyQXfDzizjEZu4Q3WPzGmSwFqK/I1AMlPfAbQITnXbCb1LbYMAT8WOYL+lajOiuFnNVvxIXBkJwxhmNxU8RjGEtrRlOJxn+lqQ36JsebshNCa4VGgsXTXW2LX+rjrTWfNTKNRk8GH+UgpXShCFvOgP1NSRalTKu7MqFw2lzYrZXb9jcF5F7yKjjRqhtM7XJZd1wuxkLT7jTZRn5sEypyRg+juDKnsA=",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server-online}}/akun/all-karyawan",
+									"host": [
+										"{{server-online}}"
+									],
+									"path": [
+										"akun",
+										"all-karyawan"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "aktifkan/nonaktifkan status karyawan",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "token",
+										"value": "U2FsdGVkX18HAc+f7VJ4ekS9FbAtuUyxEx1Ycq4SwxuD6ksrbNBkflDTP2WP2VNT6ozd/prAtjr0CSyQXfDzizjEZu4Q3WPzGmSwFqK/I1AMlPfAbQITnXbCb1LbYMAT8WOYL+lajOiuFnNVvxIXBkJwxhmNxU8RjGEtrRlOJxn+lqQ36JsebshNCa4VGgsXTXW2LX+rjrTWfNTKNRk8GH+UgpXShCFvOgP1NSRalTKu7MqFw2lzYrZXb9jcF5F7yKjjRqhtM7XJZd1wuxkLT7jTZRn5sEypyRg+juDKnsA=",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "646dd90cc8d8ac3066fa0288",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "nonaktif",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:9000/akun/update-status"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "manajemen penjualan",
+			"item": [
+				{
+					"name": "penjualan",
+					"item": [
+						{
+							"name": "tambah penjualan",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"penjualanItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahBeli\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahBeli\": 100\n    }\n  ],\n  \"noNota\": \"AA8\",\n  \"idKaryawan\": \"646dd90cc8d8ac3066fa0288\",\n  \"idPembeli\": \"64b11ae7d9a62ffb9485f5fa\",\n  \"alamatKirim\": \"Gang Jambu nomor 97, Sidoarjo\",\n  \"tglKirim\": \"2023-10-28\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{server-online}}/penjualan/add"
+							},
+							"response": []
+						},
+						{
+							"name": "semua data penjualan",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": "{{server-online}}/penjualan/all"
+							},
+							"response": []
+						},
+						{
+							"name": "check mark sudah di kirim",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "6483b933a7aa988f4fa1bb2a",
+											"type": "text"
+										},
+										{
+											"key": "nomorSuratJalan",
+											"value": "B123456789098",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:9000/penjualan/deliver"
+							},
+							"response": []
+						},
+						{
+							"name": "check mark sudah di terima",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "6483b933a7aa988f4fa1bb2a",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:9000/penjualan/finished"
+							},
+							"response": []
+						},
+						{
+							"name": "check mark cancel penjualan",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "6483c48c54a365585f01c77b",
+											"type": "text"
+										}
+									]
+								},
+								"url": "http://localhost:9000/penjualan/cancel"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "pembeli",
+					"item": [
+						{
+							"name": "tambah pembeli",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "nama",
+											"value": "Wisnu",
+											"type": "text"
+										},
+										{
+											"key": "alamat",
+											"value": "Jl. Ahmad Yani No.28Jemur Wonosari, Kec. Wonocolo, Surabaya, Jawa Timur 60235",
+											"type": "text"
+										},
+										{
+											"key": "nik",
+											"value": "3515109876543212",
+											"type": "text"
+										},
+										{
+											"key": "tlpn",
+											"value": "081873464122",
+											"type": "text"
+										},
+										{
+											"key": "editBy",
+											"value": "A002",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:9000/pembeli/add",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9000",
+									"path": [
+										"pembeli",
+										"add"
+									],
+									"query": [
+										{
+											"key": "nama",
+											"value": "Nara",
+											"disabled": true
+										},
+										{
+											"key": "tlpn",
+											"value": "08139577483",
+											"disabled": true
+										},
+										{
+											"key": "alamat",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "nik",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "editBy",
+											"value": "A002",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit data pembeli",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "\"U2FsdGVkX1+UlfPSksFcySoagnxG+Ds7HLexLVXlWDrQYpqhARyQ9GuZgjM3dlXIoyO1wDqUsDwTkmqfa29Wswpv0uhIhTyhBUhgcQAaqbnQBZAuYu5yqMXkQqaL/fBmMN1k6nPD7nPAsYe7kiDy29lRNkWKp2YYr7Ve0desCRxvA7VsKknPEm/aaaMN5WFvp8dknkWQGafcq4cdH+RpRgoGi+ohnLh2Ne2iK2cPkPXjk8h2UIAeuLOVivySiD1zFlHNlHaxnn+klgIG/7RA/Ff+iZkezuPGobwavYDbdE4=\"",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "646132cd2fa51cc462784b89",
+											"type": "text"
+										},
+										{
+											"key": "nama",
+											"value": "Wisnu Wardana",
+											"type": "text"
+										},
+										{
+											"key": "alamat",
+											"value": "Jl. Ahmad Yani No.28 Jemur Wonosari, Kec. Wonocolo, Surabaya, Jawa Timur 60235",
+											"type": "text"
+										},
+										{
+											"key": "nik",
+											"value": "35151098765432123",
+											"type": "text"
+										},
+										{
+											"key": "tlpn",
+											"value": "0815237653923",
+											"type": "text"
+										},
+										{
+											"key": "editBy",
+											"value": "A001S",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server-online}}/pembeli/edit",
+									"host": [
+										"{{server-online}}"
+									],
+									"path": [
+										"pembeli",
+										"edit"
+									],
+									"query": [
+										{
+											"key": "nama",
+											"value": "Nara",
+											"disabled": true
+										},
+										{
+											"key": "tlpn",
+											"value": "08139577483",
+											"disabled": true
+										},
+										{
+											"key": "alamat",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "nik",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "editBy",
+											"value": "A002",
+											"disabled": true
+										},
+										{
+											"key": "token",
+											"value": "U2FsdGVkX1/5qVpvjZxNjzBevAsj/FbqT8mIc4PLGUxAPUC8smQ66tuMI9uS0/kQuDAcNvOWPu9zkVB0tpyAdC6bjZSH7fOd/xiiKFZTFVfkMrc3eZ8z5s15iUS0o05rdptRW+AUskKvchr6q8PwnLkfVDL9dNEZXZswNxDnALwS4fFr7T89v8TTYVfL8vzxfWeY8ZHu//cRWBHKReoI2/04rY+7lgTzV1uVBuRmcWdtsjver+BdBwEG0eBsSzGPhsjPqqFPcfpQjiKwp/FiSDUzAsRXpIY/mOkFNYHCFNs=",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "semua data pembeli",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{server-online}}/pembeli/all",
+									"host": [
+										"{{server-online}}"
+									],
+									"path": [
+										"pembeli",
+										"all"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "\"U2FsdGVkX1/VNSnyN/MDqVyxzZlamIp5G/D4EQknth23DVLI5HEt62HBtfQlyuWZSpDJzxB53hS/lqiw1NJ9Sn07FXmWiMCICoKpbS/Uzeih27GFLNWnt9SSjjTPrXVoeUnJOJ919v06orImTyepQ7HCojLUUilG0gGI0cj9Qfmy3C11a7lB+fJplXjFWMLc09qxGP6p/nfQByR3oOMDLU3W5ujT0cpCxQWnHDU9KaZV/aVUU31/UfyP4fn/u/NVnXgkW6bogholPxPT0KbKrAkmVtYZAiHCIcWIqFDMG2Y=\"",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "cari pembel",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "646133bbb686705ca0715f09",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/pembeli/find"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "kurir",
+					"item": [
+						{
+							"name": "semua data kurir",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{server-online}}/gudang/all-kurir"
+							},
+							"response": []
+						},
+						{
+							"name": "tambah data kurir",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "nama",
+											"value": "Supriyadi",
+											"type": "text"
+										},
+										{
+											"key": "tlpn",
+											"value": "08795875432",
+											"type": "text"
+										},
+										{
+											"key": "alamat",
+											"value": "Bebekan, Taman, Sidoarjo",
+											"type": "text"
+										},
+										{
+											"key": "nopol",
+											"value": "W 2314 MBQ",
+											"type": "text"
+										},
+										{
+											"key": "tipe",
+											"value": "pickup",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/add-kurir"
+							},
+							"response": []
+						},
+						{
+							"name": "edit data kurir",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "6557897e41640d574f47823a",
+											"type": "text"
+										},
+										{
+											"key": "nama",
+											"value": "Supriyadi Rahmad",
+											"type": "text"
+										},
+										{
+											"key": "tlpn",
+											"value": "08795875432",
+											"type": "text"
+										},
+										{
+											"key": "alamat",
+											"value": "Bebekan, Taman, Sidoarjo",
+											"type": "text"
+										},
+										{
+											"key": "nopol",
+											"value": "W 2314 MBQ",
+											"type": "text"
+										},
+										{
+											"key": "tipe",
+											"value": "pickup",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/edit-kurir"
+							},
+							"response": []
+						},
+						{
+							"name": "cari kurir by id",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "6557897e41640d574f47823a",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/find-id-kurir"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var authServiceUrl = \"https://hamid2backend.cyclic.app/akun/login\";",
+					"var cname = \"yuridan\";",
+					"var cpword = \"12345\";",
+					"",
+					"const getTokenRequest = {",
+					"  method: 'POST',",
+					"  url: authServiceUrl,",
+					"  header: 'Content-Type:application/x-www-form-urlencoded',",
+					"  body: {",
+					"      mode: 'urlencoded',",
+					"      urlencoded: [",
+					"          { key: 'username', value: cname },",
+					"          { key: 'password', value: cpword },",
+					"      ]",
+					"  }",
+					"};",
+					"",
+					"pm.sendRequest(getTokenRequest, (err, response) => {",
+					"  const jsonResponse = response.json();",
+					"  const newToken = jsonResponse.token;",
+					"",
+					"  pm.variables.set('token',newToken);",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server-online",
+			"value": "https://hamid2backend.cyclic.app",
+			"type": "string"
+		},
+		{
+			"key": "LOGIN_URL",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "UNAME",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "PWD",
+			"value": null,
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "online",
+			"value": "https://hamid2backend.cyclic.app",
+			"type": "string"
+		},
+		{
+			"key": "local",
+			"value": "http://localhost:9000",
+			"type": "string"
+		}
+	]
+}
