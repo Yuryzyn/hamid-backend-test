@@ -47,7 +47,8 @@ class BarangKeluarController {
         .then(async (barangKeluarData) => {
 
             if (barangKeluarData.length === 0) {
-                const penjualanItems = penjualanData.barangKeluarItems;
+                const penjualanItems = penjualanData.penjualanItems;
+                // console.log(penjualanData)
                 const barangKeluarItems = penjualanItems.map((item) => {
                 const idBarang = item.idBarang;
                 const jumlahBeli = item.jumlahBeli;
@@ -177,7 +178,7 @@ class BarangKeluarController {
     }
   
     static createBarangKeluar(req, res, next) {
-        const { noNota, nomorSuratJalan, barangKeluarItems } = req.body;
+        const { noNota, nomorSuratJalan, barangKeluarItems, idKurir } = req.body;
     
         penjualan.findOne({ noNota: noNota })
             .then((penjualanData) => {
@@ -214,13 +215,10 @@ class BarangKeluarController {
                         const newBarangKeluar = new barangKeluar({
                             noNota: noNota,
                             barangKeluarItems: barangKeluarItems,
+                            idKurir: idKurir,
                             nomorSuratJalan: nomorSuratJalan || "belum ada surat jalan",
                             statusKirim: statusKirim,
                         });
-
-                        // console.log(dataKeluar1)
-                        // console.log(dataKeluar2)
-                        // console.log(dataKeluarFinal)
 
                         return newBarangKeluar.save().then((savedBarangKeluar) => {
                             if (statusKirim === "deliver") {
@@ -255,54 +253,64 @@ class BarangKeluarController {
     }
     
     static allBarangKeluar(req, res, next) {
-        
-            barangKeluar.find().populate({
-                path: 'barangKeluarItems.idBarang',
-                model: 'barang',
-            })
-            .then((barangKeluarData)=>{
-                if (!barangKeluarData) {
-                    return res.status(404).json({
-                        message: 'Data barang keluar tidak ditemukan.',
-                    });
-                }
-              
-                const formattedBarangKeluar = barangKeluarData.map((barangKeluar) => {
-                    return {
-                        _id: barangKeluar._id,
-                        noNota: barangKeluar.noNota,
-                        barangKeluarItems: barangKeluar.barangKeluarItems.map((item) => {
-                            const detailBarang = {
-                                _id: item.idBarang._id,
-                                jenis: item.idBarang.jenis,
-                                merk: item.idBarang.merk,
-                                hargaBeli: item.idBarang.hargaBeli,
-                                hargaJual: item.idBarang.hargaJual,
-                                fotoBarang: item.idBarang.fotoBarang,
-                            };
-                            
-                            return {
-                                idBarang: item.idBarang._id,
-                                detailBarang,
-                                jumlahKeluar: item.jumlahKeluar,
-                                _id: item._id,
-                            };
-                        
-                        }),
-                        nomorSuratJalan: barangKeluar.nomorSuratJalan,
-                        statusKirim: barangKeluar.statusKirim,
-                        create: barangKeluar.create,
-                        update: barangKeluar.update
-                    };
-                });
-              
-                return res.status(200).json({
-                    data: formattedBarangKeluar,
-                    message: 'Data barang keluar berhasil ditemukan.',
-                });
 
+        barangKeluar.find().populate({
+            path: 'barangKeluarItems.idBarang',
+            model: 'barang',
+        }).populate({
+            path: 'idKurir',
+            model: 'kurir',
+        }).then((barangKeluarData) => {
+            if (!barangKeluarData) {
+                return res.status(404).json({
+                    message: 'Data barang keluar tidak ditemukan.',
+                });
+            }
+    
+            const formattedBarangKeluar = barangKeluarData.map((barangKeluar) => {
+                return {
+                    _id: barangKeluar._id,
+                    noNota: barangKeluar.noNota,
+                    barangKeluarItems: barangKeluar.barangKeluarItems.map((item) => {
+                        const detailBarang = {
+                            _id: item.idBarang._id,
+                            jenis: item.idBarang.jenis,
+                            merk: item.idBarang.merk,
+                            hargaBeli: item.idBarang.hargaBeli,
+                            hargaJual: item.idBarang.hargaJual,
+                            fotoBarang: item.idBarang.fotoBarang,
+                        };
+    
+                        return {
+                            idBarang: item.idBarang._id,
+                            detailBarang,
+                            jumlahKeluar: item.jumlahKeluar,
+                            _id: item._id,
+                        };
+                    }),
+                    kurir: {
+                        _id: barangKeluar.idKurir._id,
+                        namaKurir : barangKeluar.idKurir.namaKurir,
+                        tlpnKurir : barangKeluar.idKurir.tlpnKurir,
+                        alamatKurir : barangKeluar.idKurir.alamatKurir,
+                        nopolKendaraan : barangKeluar.idKurir.nopolKendaraan,
+                        tipeKendaraan : barangKeluar.idKurir.tipeKendaraan
+                    },
+                    nomorSuratJalan: barangKeluar.nomorSuratJalan,
+                    statusKirim: barangKeluar.statusKirim,
+                    create: barangKeluar.create,
+                    update: barangKeluar.update,
+                };
+            });
+    
+            return res.status(200).json({
+                data: formattedBarangKeluar,
+                message: 'Data barang keluar berhasil ditemukan.',
+            });
+    
         }).catch(next);
     }
+    
 
 }
 

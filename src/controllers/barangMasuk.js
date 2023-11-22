@@ -28,6 +28,7 @@ class barangMasukController {
                         jumlahMasuk : data.jumlahMasuk,
                         totalHargaBeli : data.totalHargaBeli,
                         tanggalTerima : data.tanggalTerima,
+                        idKurir : data.idKurir,
                         nomorSuratJalan : data.nomorSuratJalan,
                     })
                 })
@@ -38,6 +39,7 @@ class barangMasukController {
                     jumlahMasuk : data.jumlahMasuk,
                     totalHargaBeli : data.totalHargaBeli,
                     tanggalTerima : data.tanggalTerima,
+                    idKurir : data.idKurir,
                     nomorSuratJalan : data.nomorSuratJalan,
                 })
             }
@@ -60,7 +62,7 @@ class barangMasukController {
     }
 
     static editDataBarangMasuk(req, res, next){
-        let {_id, idBarang, keterangan, jumlahMasuk, tanggalTerima, nomorSuratJalan,handleBy } = req.body
+        let {_id, idBarang, keterangan, jumlahMasuk, tanggalTerima, nomorSuratJalan, idKurir } = req.body
 
         masuk.findByIdAndUpdate({
             _id : _id
@@ -68,7 +70,8 @@ class barangMasukController {
             idBarang, 
             keterangan, 
             jumlahMasuk, 
-            tanggalTerima, 
+            tanggalTerima,
+            idKurir,
             nomorSuratJalan,
         }
         ).then((response)=>{

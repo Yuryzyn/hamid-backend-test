@@ -6,7 +6,7 @@ const Axios = require("axios");
 class PembeliController {
     
     static addPembeli(req, res, next){
-        let {nama,tlpn,nik,alamat,editBy} = req.body
+        let {nama,tlpn,nik,alamat} = req.body
 
         pembeli.create({
             nama,

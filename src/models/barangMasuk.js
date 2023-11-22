@@ -18,6 +18,10 @@ const BarangMasukSchema = new mongoose.Schema({
         type : Number,
         default : 0,
     },
+    idKurir: {
+        type : String,
+        required : true,
+    },
     nomorSuratJalan : {
         type : String,
         default : "belum ada surat jalan",

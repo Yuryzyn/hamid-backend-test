@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-const BarangKeluarSchema = new mongoose.Schema({
+const BarangReturSchema = new mongoose.Schema({
   noNota: {
     type: String,
     required: true,
   },
-  barangKeluarItems: [
+  barangReturItems: [
     {
       idBarang: {
         type: String,
@@ -28,7 +28,7 @@ const BarangKeluarSchema = new mongoose.Schema({
   statusKirim: {
     type: String,
     default: "on-process",
-    // "deliver", "finished", "undone"
+    // "deliver", "finished", "sended-back", "undone"
   },
 },{
     versionKey : false,
@@ -38,6 +38,6 @@ const BarangKeluarSchema = new mongoose.Schema({
     }
 });
 
-const BarangKeluar = mongoose.model("keluar", BarangKeluarSchema);
+const BarangRetur = mongoose.model("retur", BarangReturSchema);
 
-module.exports = BarangKeluar;
+module.exports = BarangRetur;

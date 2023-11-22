@@ -9,11 +9,11 @@ Router.post("/add-stock", gudang.addStockGudang);
 Router.get("/all-stock", gudang.findAllStockGudang);
 Router.post("/edit-stock", gudang.editStockGudang);
 
-const retur = require("./../controllers/barangRusak");
-Router.post("/add-retur", retur.addBarangRetur);
-Router.get("/all-retur", retur.findAllBarangRetur);
-Router.post("/edit-retur", retur.editBarangRetur);
-Router.post("/done-retur", retur.checkRetur);
+const rusak = require("./../controllers/barangRusak");
+Router.post("/add-rusak", rusak.addBarangRusak);
+Router.get("/all-rusak", rusak.findAllBarangRusak);
+Router.post("/edit-rusak", rusak.editBarangRusak);
+Router.post("/done-retur", rusak.checkRetur);
 
 const barang = require("./../controllers/barang");
 Router.post("/add-item",upload.single("fotoBarang"), barang.addBarang);
@@ -31,5 +31,11 @@ Router.get("/find-nota",keluar.findNoNota);
 Router.post("/calculate-nota",keluar.CalculateWithNota)
 Router.post("/add-deliver", keluar.createBarangKeluar);
 Router.get("/all-deliver",keluar.allBarangKeluar);
+
+const kurir = require("../controllers/kurir")
+Router.post("/add-kurir",kurir.addKurir);
+Router.post("/edit-kurir",kurir.editKurir);
+Router.post("/find-id-kurir",kurir.findOneKurir);
+Router.get("/all-kurir",kurir.findAllKurir);
 
 module.exports = Router;

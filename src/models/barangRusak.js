@@ -4,23 +4,23 @@ const barangRusakSchema = new mongoose.Schema({
 
     idBarang : {
         type : String,
-        require : [true,"ID Barang yang di retur harus di isi!"],
-
-    },  
+        require : [true,"ID Barang yang rusak harus di isi!"],
+    },
+    idKirim : {
+        type : String,
+        required : true
+    },
     keteranganRusak : {
         type : String,
-        require : [true,"Keterangan retur harus di isi!"],
-
+        require : [true,"Keterangan barang rusak harus di isi!"],
     },
     jumlahRusak : {
         type : Number,
-        require : [true,"Jumlah barang retur harus di isi!"],
-        
+        require : [true,"Jumlah barang rusak harus di isi!"],
     },
     statusRetur : {
         type : String,
-        default : "belum retur",
-
+        default : "belum retur", // sudah retur, bisa di retur, tidak bisa di retur
     },
     
 },{
@@ -31,6 +31,6 @@ const barangRusakSchema = new mongoose.Schema({
     }
 });
 
-const barangRusak = mongoose.model("retur", barangRusakSchema);
+const barangRusak = mongoose.model("rusak", barangRusakSchema);
 
 module.exports = barangRusak;
