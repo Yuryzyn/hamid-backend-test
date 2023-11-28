@@ -5,6 +5,10 @@ const BarangKeluarSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  tanggalKeluar: {
+    type: String,
+    required: true
+  },
   barangKeluarItems: [
     {
       idBarang: {
@@ -14,6 +18,18 @@ const BarangKeluarSchema = new mongoose.Schema({
       jumlahKeluar: {
         type: Number,
         required: true,
+      },
+    },
+  ],
+  telahRusakItems: [
+    {
+      idBarang: {
+        type: String,
+        default: null,
+      },
+      jumlahKeluar: {
+        type: Number,
+        default: null,
       },
     },
   ],

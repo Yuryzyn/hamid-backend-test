@@ -20,7 +20,7 @@ const barangRusakSchema = new mongoose.Schema({
     },
     statusRetur : {
         type : String,
-        default : "belum retur", // sudah retur, bisa di retur, tidak bisa di retur
+        default : "undone", // sudah retur, bisa di retur, tidak bisa di retur, belum di retur
     },
     
 },{

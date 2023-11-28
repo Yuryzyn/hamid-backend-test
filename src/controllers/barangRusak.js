@@ -40,11 +40,12 @@ class BarangRusakController {
                     jumlahRusak: jumlahRusak,
                 });
             })
+            
             .then(() => {
                 // Step 4: Update statusKirim in BarangKeluar or BarangRetur
                 return sended.findByIdAndUpdate(
                     { _id: idKirim },
-                    { $set: { statusKirim: "undone" } },
+                    { $set: { statusKirim: "bermasalah" } },
                     { new: true }
                 );
             })

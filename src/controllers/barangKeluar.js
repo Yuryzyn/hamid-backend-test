@@ -63,7 +63,6 @@ class BarangKeluarController {
 
                 return {
                     idBarang: idBarang,
-                    detailBarang: {},
                     jumlahKeluar: jumlahKeluarTotal,
                     barangBelumDikirim: {
                         idBarang: idBarang,
@@ -72,10 +71,13 @@ class BarangKeluarController {
                 };
                 });
 
+                // console.log(penjualanData)
                 res.status(200).json({
                     data: {
                         noNota: penjualanData.noNota,
                         barangKeluarItems: barangKeluarItems,
+                        alamatKirim: penjualanData.alamatKirim,
+                        tglKirim: penjualanData.tglKirim
                     },
                     message: "Data dengan noNota tersebut belum dikirim.",
                 });
