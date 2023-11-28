@@ -31,7 +31,7 @@ class BarangKeluarController {
 
         penjualan.find({ 
             noNota, statusKirim: 
-            { $in: ["on-process", "half-deliver"] } 
+            { $in: ["on-process", "half-deliver","bermasalah"] } 
         })
         .then((data) => {
             if (data.length === 0) {
