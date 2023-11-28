@@ -13,61 +13,74 @@ class BarangRusakController {
     static addBarangRusak(req, res, next) {
         let { idBarang, idKirim, keteranganRusak, jumlahRusak } = req.body;
 
-        // Step 1: Find idKirim in BarangKeluar
-        sended.findById({ _id : idKirim })
-            .then((barangKeluar) => {
-                if (!barangKeluar) {
-                    // If idKirim not found in BarangKeluar, search in BarangRetur
-                    return retur.findById({ _id : idKirim });
+        // Langkah 1: Cari idKirim dari database barangKeluar
+        sended.findOne({ idKirim: idKirim })
+            .then((barangKeluarData) => {
+                if (!barangKeluarData) {
+                    // Jika idKirim tidak ditemukan, cari di database barangRetur
+                    return retur.findOne({ idKirim: idKirim });
                 }
-                return barangKeluar;
+                return barangKeluarData;
             })
-            .then((pengiriman) => {
-                // Step 2: Check if idBarang and jumlahRusak are valid
-                
-                const items = pengiriman.barangKeluarItems || pengiriman.barangReturItems;
-                const matchingItem = items.find((item) => item.idBarang === idBarang);
-
-                if (!matchingItem || jumlahRusak > matchingItem.jumlahKeluar) {
-                    throw new Error("Invalid idBarang or jumlahRusak");
+            .then((data) => {
+                if (!data) {
+                    throw new Error("ID Kirim tidak ditemukan");
                 }
 
-                // Step 3: Create BarangRusak
+                // Langkah 2: Pastikan idBarang ada pada barangKeluarItems atau barangReturItems
+                const itemData = data.barangKeluarItems || data.barangReturItems;
+                const foundItem = itemData.find(item => item.idBarang === idBarang);
+
+                if (!foundItem) {
+                    throw new Error("ID Barang tidak ditemukan");
+                }
+
+                // Pastikan jumlah barangRusak tidak lebih dari jumlah sesuai dari idBarang dari idKirim
+                if (jumlahRusak > foundItem.jumlahKeluar) {
+                    throw new Error("Jumlah barang rusak melebihi jumlah barang keluar");
+                }
+
+                // Langkah 3: Create barang rusak sesuai dengan input yang sudah di masukkan
                 return rusak.create({
                     idBarang: idBarang,
                     idKirim: idKirim,
                     keteranganRusak: keteranganRusak,
                     jumlahRusak: jumlahRusak,
+                    statusRetur: "belum retur", // Default status
                 });
             })
-            
+            .then((createdRusak) => {
+                // Langkah 4: Ubah statusKirim pada data barangKeluar atau barangRetur menjadi undone
+                return sended.findOneAndUpdate({ idKirim: idKirim }, { statusKirim: "bermasalah" }, { new: true });
+            })
+            .then((updatedData) => {
+                if (updatedData) {
+                    // Langkah 5: Jika idKirim berasal dari barangKeluar, ubah statusKirim pada data penjualan menjadi half-deliver
+                    return jual.findOneAndUpdate({ noNota: updatedData.noNota }, { statusKirim: "half-deliver" }, { new: true });
+                }
+                return null;
+            })
+            .then((updatedPenjualan) => {
+                if (updatedPenjualan) {
+                    // Langkah 6: Kurangi jumlahKeluar dengan jumlahRusak sesuai idBarang di dalam barangKeluarItems
+                    const itemToUpdate = updatedPenjualan.penjualanItems.find(item => item.idBarang === idBarang);
+                    itemToUpdate.jumlahBeli -= jumlahRusak;
+                    return updatedPenjualan.save();
+                }
+                return null;
+            })
             .then(() => {
-                // Step 4: Update statusKirim in BarangKeluar or BarangRetur
-                return sended.findByIdAndUpdate(
-                    { _id: idKirim },
-                    { $set: { statusKirim: "bermasalah" } },
+                // Langkah 7: Tambahkan data barangRusak ke dalam telahRusakItems di dalam data barangKeluar
+                return sended.findOneAndUpdate(
+                    { idKirim: idKirim },
+                    { $push: { telahRusakItems: { idBarang: idBarang, jumlahRusak: jumlahRusak } } },
                     { new: true }
                 );
-            })
-            .then((pengiriman) => {
-                // console.log(pengiriman)
-                // Step 5: Update statusKirim in Penjualan
-                if (pengiriman instanceof sended) {
-                    return jual.findOneAndUpdate(
-                        { noNota: pengiriman.noNota },
-                        { $set: { statusKirim: "half-deliver" } },
-                        { new: true }
-                    );
-                } else {
-                    return null; // If pengiriman is from BarangRetur, no need to update Penjualan
-                }
             })
             .then(() => {
                 res.status(201).json({ message: "Barang rusak berhasil ditambahkan" });
             })
-            .catch((error) => {
-                next(error);
-            });
+            .catch(next);
     }
 
     static findAllBarangRusak(req, res, next) {

@@ -180,7 +180,7 @@ class BarangKeluarController {
     }
   
     static createBarangKeluar(req, res, next) {
-        const { noNota, nomorSuratJalan, barangKeluarItems, idKurir } = req.body;
+        const { noNota, nomorSuratJalan, barangKeluarItems, idKurir, tanggalKeluar, alamatKirim } = req.body;
     
         penjualan.findOne({ noNota: noNota })
             .then((penjualanData) => {
@@ -219,7 +219,9 @@ class BarangKeluarController {
                             barangKeluarItems: barangKeluarItems,
                             idKurir: idKurir,
                             nomorSuratJalan: nomorSuratJalan || "belum ada surat jalan",
-                            statusKirim: statusKirim,
+                            tanggalKeluar: tanggalKeluar,
+                            alamatKirim: alamatKirim,
+                            statusKirim: statusKirim
                         });
 
                         return newBarangKeluar.save().then((savedBarangKeluar) => {
@@ -299,6 +301,8 @@ class BarangKeluarController {
                         tipeKendaraan : barangKeluar.idKurir.tipeKendaraan
                     },
                     nomorSuratJalan: barangKeluar.nomorSuratJalan,
+                    tanggalKeluar: barangKeluar.tanggalKeluar,
+                    alamatKirim: barangKeluar.alamatKirim,
                     statusKirim: barangKeluar.statusKirim,
                     create: barangKeluar.create,
                     update: barangKeluar.update,

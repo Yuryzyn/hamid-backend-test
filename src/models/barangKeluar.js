@@ -27,7 +27,7 @@ const BarangKeluarSchema = new mongoose.Schema({
         type: String,
         default: null,
       },
-      jumlahKeluar: {
+      jumlahRusak: {
         type: Number,
         default: null,
       },
