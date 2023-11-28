@@ -38,12 +38,12 @@
 										},
 										{
 											"key": "jumlahRusak",
-											"value": "40",
+											"value": "50",
 											"type": "text"
 										},
 										{
 											"key": "idKirim",
-											"value": "655b5051d834b875d015f3b0",
+											"value": "6565f89ba13505b155614ccd",
 											"type": "text"
 										}
 									]
@@ -596,7 +596,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"noNota\": \"AA8\",\n  \"barangKeluarItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahKeluar\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahKeluar\": 100\n    }\n  ],\n  \"idKurir\" : \"6557897e41640d574f47823a\",\n  \"nomorSuratJalan\": \"123456767543243456543\"\n}",
+									"raw": "{\n  \"noNota\": \"AA8\",\n  \"barangKeluarItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahKeluar\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahKeluar\": 100\n    }\n  ],\n  \"idKurir\" : \"6557897e41640d574f47823a\",\n  \"nomorSuratJalan\": \"123456767543243456543\",\n  \"alamatKirim\": \"JL. Ketintang\",\n  \"tanggalKeluar\": \"2023-11-21T00:00:00.000Z\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
