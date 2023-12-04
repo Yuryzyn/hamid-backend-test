@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
 
 const BarangReturSchema = new mongoose.Schema({
-  noNota: {
-    type: String,
-    required: true,
-  },
   barangReturItems: [
     {
       idBarang: {
         type: String,
         required: true,
       },
-      jumlahKeluar: {
+      jumlahRetur: {
         type: Number,
         required: true,
       },
@@ -23,12 +19,16 @@ const BarangReturSchema = new mongoose.Schema({
   },
   nomorSuratJalan: {
     type: String,
-    default: "belum ada surat jalan",
+    required : true,
   },
-  statusKirim: {
+  statusRetur: {
     type: String,
-    default: "on-process",
-    // "deliver", "finished", "sended-back", "undone"
+    default: "deliver",
+    // deliver, finished
+  },
+  tanggalRetur : {
+    type : Date,
+    default : Date.now,
   },
 },{
     versionKey : false,

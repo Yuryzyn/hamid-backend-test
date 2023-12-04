@@ -5,9 +5,9 @@ const BarangKeluarSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tanggalKeluar: {
-    type: String,
-    required: true
+  tanggalKeluar : {
+    type : Date,
+    default : Date.now,
   },
   barangKeluarItems: [
     {
@@ -39,12 +39,12 @@ const BarangKeluarSchema = new mongoose.Schema({
   },
   nomorSuratJalan: {
     type: String,
-    default: "belum ada surat jalan",
+    required : true,
   },
   statusKirim: {
     type: String,
     default: "on-process",
-    // "deliver", "finished", "undone"
+    // "deliver", "finished", "bermasalah"
   },
 },{
     versionKey : false,

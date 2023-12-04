@@ -47,6 +47,7 @@ class GudangController {
                         Barang : barangFinal,
                         jumlahBarang : data.jumlahBarang,
                         jumlahRusak : data.jumlahRusak,
+                        rusakNonRetur : data.rusakNonRetur,
                         handleBy : data.handleBy,
                         create : data.create,
                         update : data.update
@@ -91,7 +92,7 @@ class GudangController {
     // }
 
     static editStockGudang (req, res, next){
-        let {idBarang, jumlahBarang, jumlahRusak } = req.body
+        let {idBarang, jumlahBarang } = req.body
 
         gudang.findOneAndUpdate({
             idBarang
@@ -106,7 +107,7 @@ class GudangController {
     }
 
     static editStockRusak (req, res, next){
-        let {idBarang, jumlahBarang, jumlahRusak } = req.body
+        let {idBarang, jumlahRusak } = req.body
 
         gudang.findOneAndUpdate({
             idBarang

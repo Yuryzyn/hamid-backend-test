@@ -13,7 +13,8 @@ const rusak = require("./../controllers/barangRusak");
 Router.post("/add-rusak", rusak.addBarangRusak);
 Router.get("/all-rusak", rusak.findAllBarangRusak);
 Router.post("/edit-rusak", rusak.editBarangRusak);
-Router.post("/done-retur", rusak.checkRetur);
+Router.post("/status-rusak", rusak.statusRusak);
+Router.get("/find-sended-for-rusak", rusak.findPengiriman);
 
 const barang = require("./../controllers/barang");
 Router.post("/add-item",upload.single("fotoBarang"), barang.addBarang);
@@ -31,8 +32,12 @@ Router.get("/find-nota",keluar.findNoNota);
 Router.post("/calculate-nota",keluar.CalculateWithNota)
 Router.post("/add-deliver", keluar.createBarangKeluar);
 Router.get("/all-deliver",keluar.allBarangKeluar);
+Router.post("/checkmark-finished",keluar.checkMarkstatusKirim);
 
-const kurir = require("../controllers/kurir")
+const retur = require("../controllers/barangRetur");
+Router.get("/selection-retur", retur.calculateRetur);
+
+const kurir = require("../controllers/kurir");
 Router.post("/add-kurir",kurir.addKurir);
 Router.post("/edit-kurir",kurir.editKurir);
 Router.post("/find-id-kurir",kurir.findOneKurir);

@@ -18,9 +18,9 @@ const barangRusakSchema = new mongoose.Schema({
         type : Number,
         require : [true,"Jumlah barang rusak harus di isi!"],
     },
-    statusRetur : {
+    statusRusak : {
         type : String,
-        default : "undone", // sudah retur, bisa di retur, tidak bisa di retur, belum di retur
+        default : "belum di cek", // bisa retur, tidak bisa retur, belum di cek
     },
     
 },{

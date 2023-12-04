@@ -13,6 +13,21 @@
 					"name": "barang rusak",
 					"item": [
 						{
+							"name": "cari pengiriman yang bisa di masukkan ke daftar barang rusak",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{server-online}}/gudang/find-sended-for-rusak"
+							},
+							"response": []
+						},
+						{
 							"name": "tambah data barang rusak",
 							"request": {
 								"method": "POST",
@@ -27,6 +42,11 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
+											"key": "idKirim",
+											"value": "6569fa726c9a8e32a69bbe19",
+											"type": "text"
+										},
+										{
 											"key": "idBarang",
 											"value": "646e3e3ea48e4886b8af6bb5",
 											"type": "text"
@@ -40,56 +60,10 @@
 											"key": "jumlahRusak",
 											"value": "50",
 											"type": "text"
-										},
-										{
-											"key": "idKirim",
-											"value": "6565f89ba13505b155614ccd",
-											"type": "text"
 										}
 									]
 								},
 								"url": "{{server-online}}/gudang/add-rusak"
-							},
-							"response": []
-						},
-						{
-							"name": "check mark done retur",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "token",
-										"value": "{{token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "_id",
-											"value": "64b799da062aac547f5887ba",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{server-online}}/gudang/done-retur",
-									"host": [
-										"{{server-online}}"
-									],
-									"path": [
-										"gudang",
-										"done-retur"
-									],
-									"query": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"disabled": true
-										}
-									]
-								}
 							},
 							"response": []
 						},
@@ -180,6 +154,52 @@
 										{
 											"key": "_id",
 											"value": "646f19af8eeb41a879c17e42",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit status rusak",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "656c8b867351c064b4a7d09a",
+											"type": "text"
+										},
+										{
+											"key": "statusRusak",
+											"value": "bisa retur",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server-online}}/gudang/status-rusak",
+									"host": [
+										"{{server-online}}"
+									],
+									"path": [
+										"gudang",
+										"status-rusak"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "{{token}}",
 											"disabled": true
 										}
 									]
@@ -643,6 +663,51 @@
 								"url": "{{server-online}}/gudang/all-deliver"
 							},
 							"response": []
+						},
+						{
+							"name": "checkMark terkirim",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "653d14a3a7f04bb31c28e906",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/checkmark-finished"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "barang retur",
+					"item": [
+						{
+							"name": "daftar barang yang bisa di retur dengan jumlahnya",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{server-online}}/gudang/selection-retur"
+							},
+							"response": []
 						}
 					]
 				}
@@ -1013,7 +1078,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"penjualanItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahBeli\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahBeli\": 100\n    }\n  ],\n  \"noNota\": \"AA8\",\n  \"idKaryawan\": \"646dd90cc8d8ac3066fa0288\",\n  \"idPembeli\": \"64b11ae7d9a62ffb9485f5fa\",\n  \"alamatKirim\": \"Gang Jambu nomor 97, Sidoarjo\",\n  \"tglKirim\": \"2023-10-28\"\n}",
+									"raw": "{\n  \"penjualanItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahBeli\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahBeli\": 100\n    }\n  ],\n  \"noNota\": \"AA\",\n  \"idKaryawan\": \"646dd90cc8d8ac3066fa0288\",\n  \"idPembeli\": \"64b11ae7d9a62ffb9485f5fa\",\n  \"alamatKirim\": \"Gang Jambu nomor 97, Sidoarjo\",\n  \"tglKirim\": \"2023-10-28\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1047,7 +1112,7 @@
 							"response": []
 						},
 						{
-							"name": "check mark sudah di kirim",
+							"name": "status kirim",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -1066,57 +1131,14 @@
 											"type": "text"
 										},
 										{
-											"key": "nomorSuratJalan",
+											"key": "statusKirim",
 											"value": "B123456789098",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
-								"url": "http://localhost:9000/penjualan/deliver"
-							},
-							"response": []
-						},
-						{
-							"name": "check mark sudah di terima",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "_id",
-											"value": "6483b933a7aa988f4fa1bb2a",
-											"type": "text"
-										}
-									]
-								},
-								"url": "http://localhost:9000/penjualan/finished"
-							},
-							"response": []
-						},
-						{
-							"name": "check mark cancel penjualan",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "token",
-										"value": "",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "_id",
-											"value": "6483c48c54a365585f01c77b",
-											"type": "text"
-										}
-									]
-								},
-								"url": "http://localhost:9000/penjualan/cancel"
+								"url": "{{server-online}}/penjualan/status"
 							},
 							"response": []
 						}

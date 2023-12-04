@@ -13,19 +13,9 @@ Router.get(
     jual.allPenjualan
 );
 Router.post(
-    "/deliver",
+    "/status",
     jwtAuthenticate,
     jual.checkPengiriman
-);
-Router.post(
-    "/finished",
-    jwtAuthenticate,
-    jual.checkSelesaiPenjualan
-);
-Router.post(
-    "/cancel",
-    jwtAuthenticate,
-    jual.checkCancelPenjualan
 );
 
 module.exports = Router;

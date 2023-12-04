@@ -18,6 +18,11 @@ const gudangSchema = new mongoose.Schema({
         Default : 0,
 
     },
+    rusakNonRetur : {
+        type : Number,
+        Default : 0,
+
+    },
     
 },{
     versionKey : false,

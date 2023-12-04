@@ -131,15 +131,8 @@ class PenjualanController {
 
         jual.findByIdAndUpdate({
             _id : data._id
-        },{
-            nomorSuratJalan : data.nomorSuratJalan
         }).then((response)=>{
-            if(!data.nomorSuratJalan) {
-                throw{
-                    status : 403,
-                    message : "Nomor surat jalan harus di isi!"
-                }
-            } else if(response.statusKirim === "canceled") {
+            if(response.statusKirim === "canceled") {
                 throw{
                     status : 403,
                     message : "Pesanan ini sudah di cancel!"
@@ -149,123 +142,38 @@ class PenjualanController {
                     status : 403,
                     message : "Pesanan ini sudah selesai!"
                 }
-            } else if(response.statusKirim === "deliver") {
-                throw{
-                    status : 403,
-                    message : "Pesanan ini sudah dalam pengiriman!"
-                }
+            // } else if(response.statusKirim === "half-deliver") {
+            //     throw{
+            //         status : 403,
+            //         message : "Pesanan ini baru setengah yang di kirim, pastikan semua pesanan telah terkirim!"
+            //     }
             } else if(!response.statusKirim) {
                 throw{
                     status : 400,
                     message : "Error, data tidak ditemukan!"
                 }
-            } else {
+            } else if (response.statusKirim === "deliver" || "half-deliver") {
                 return jual.findByIdAndUpdate({
                     _id : response._id
                 },{
-                    tglKirim : Date.now(),
-                    statusKirim : "deliver"
+                    statusKirim : "delivered"
                 })
-            }
+            } else if (response.statusKirim === "on-process"){
+                    return jual.findByIdAndUpdate({
+                        _id : response._id
+                    },{
+                        statusKirim : "canceled"
+                    })
+                } else {
+                    throw{
+                        status : 403,
+                        message : "Status tidak terdaftar!"
+                    }
+                }
+            
         }).then((r)=>{
             res.status(200).json({
                 message: "Berhasil mengupdate status penjualan dengan nomor surat jalan : " + data.nomorSuratJalan
-            })
-        }).catch(next)
-
-    }
-
-    static checkCancelPenjualan(req, res, next) {
-        let data = req.body
-
-        jual.findById({
-            _id : data._id
-        }).then((response)=>{
-            if(response.statusKirim === "deliver" ) {
-                throw{
-                    status : 403,
-                    message : "Pesanan ini sudah dalam proses pengiriman!"
-                }
-            } else if (response.statusKirim === "finished" ) {
-                throw {
-                    status : 403,
-                    message : "Pesanan ini sudah di kirim dan sudah selesai!"
-                }
-            } else if (response.statusKirim === "canceled" ) {
-                throw {
-                    status : 403,
-                    message : "Pesanan ini sudah di cancel!"
-                }
-            } else if(!response.statusKirim) {
-                throw{
-                    status : 400,
-                    message : "Error, data tidak ditemukan!"
-                }
-            } else {
-                return jual.findByIdAndUpdate({
-                    _id : data._id
-                },{statusKirim : "canceled"})
-            }
-        }).then((r)=>{
-            res.status(200).json({
-                message : "Berhasil cancel pesanan ini!"
-            })
-        }).catch(next)
-
-    }
-
-    static checkSelesaiPenjualan(req, res, next) {
-        let data = req.body
-
-        jual.findById({
-            _id : data._id
-        }).then((response)=>{
-            if(response.statusKirim === "on-process" ) {
-                throw{
-                    status : 403,
-                    message : "Pesanan ini masih di proses!"
-                }
-            } else if(response.statusKirim === "cancel" ) {
-                throw {
-                    status : 403,
-                    message : "Pesanan ini telah di cancel!"
-                }
-            } else if(response.statusKirim === "finished") {
-                throw{
-                    status : 403,
-                    message : "Pesanan ini sudah selesai!"
-                }
-            } else if(!response.statusKirim) {
-                throw{
-                    status : 400,
-                    message : "Error, data tidak ditemukan!"
-                }
-            } else {
-                return jual.findByIdAndUpdate({
-                    _id : data._id
-                },{tanggalTerima : Date.now(), statusKirim : "finished"})
-            }
-        }).then((response2)=>{
-            const barangId = response2.idBarang
-            const totalTerjual = response2.jumlahBeli
-            console.log(response2)
-            if(!response2){
-                throw{
-                    status : 400,
-                    message : "error, data tidak ada!"
-                }
-            } else {
-                return gudang.updateOne({ 
-                    idBarang : barangId
-                },{
-                    $inc : {
-                        jumlahBarang : - totalTerjual
-                    }
-                })
-            }
-        }).then((r)=>{
-            res.status(200).json({
-                message : "Berhasil checkmark barang yang di kirim!"
             })
         }).catch(next)
 

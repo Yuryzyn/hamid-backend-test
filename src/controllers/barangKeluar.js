@@ -25,6 +25,36 @@ class BarangKeluarController {
         }).catch(next);
     }
 
+    static checkMarkstatusKirim (req,res,next) {
+        const {_id} = req.body;
+        const statusKirim = "finished"
+
+        barangKeluar.findById({_id : _id}).then((response)=>{
+            if(!response){
+                throw {
+                    status: 404,
+                    message: "database error, hubungi super-admin!",
+                };
+            } else if (response.statusKirim === "finished") {
+                throw {
+                    status: 403,
+                    message: "pengiriman ini sudah di kirim!",
+                };
+            } else if ( response.statusKirim === "deliver" ) {
+                return barangKeluar.updateOne({ _id: _id }, { statusKirim: statusKirim }).exec();
+            } else {
+                throw {
+                    status: 404,
+                    message: "database error, hubungi super-admin!",
+                };
+            }
+        }).then(()=>{
+            res.status(200).json({
+                message: "status pengiriman berhasil di update, barang terkirim!",
+            });
+        }).catch(next)
+    }
+
     static CalculateWithNota(req, res, next) {
         const { noNota } = req.body;
         let penjualanData;
@@ -48,7 +78,6 @@ class BarangKeluarController {
 
             if (barangKeluarData.length === 0) {
                 const penjualanItems = penjualanData.penjualanItems;
-                // console.log(penjualanData)
                 const barangKeluarItems = penjualanItems.map((item) => {
                 const idBarang = item.idBarang;
                 const jumlahBeli = item.jumlahBeli;
@@ -71,7 +100,6 @@ class BarangKeluarController {
                 };
                 });
 
-                // console.log(penjualanData)
                 res.status(200).json({
                     data: {
                         noNota: penjualanData.noNota,
@@ -218,7 +246,7 @@ class BarangKeluarController {
                             noNota: noNota,
                             barangKeluarItems: barangKeluarItems,
                             idKurir: idKurir,
-                            nomorSuratJalan: nomorSuratJalan || "belum ada surat jalan",
+                            nomorSuratJalan: nomorSuratJalan,
                             tanggalKeluar: tanggalKeluar,
                             alamatKirim: alamatKirim,
                             statusKirim: statusKirim

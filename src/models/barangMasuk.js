@@ -24,7 +24,7 @@ const BarangMasukSchema = new mongoose.Schema({
     },
     nomorSuratJalan : {
         type : String,
-        default : "belum ada surat jalan",
+        required : true,
     },
     tanggalTerima : {
         type : Date,
