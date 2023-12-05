@@ -695,6 +695,30 @@
 					"name": "barang retur",
 					"item": [
 						{
+							"name": "tambah kirim retur",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"barangReturItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahRetur\": 50\n    }\n  ],\n  \"idKurir\": \"6557897e41640d574f47823a\",\n  \"nomorSuratJalan\": \"9812472093456712093\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{server-online}}/gudang/add-retur"
+							},
+							"response": []
+						},
+						{
 							"name": "daftar barang yang bisa di retur dengan jumlahnya",
 							"request": {
 								"method": "GET",
@@ -706,6 +730,46 @@
 									}
 								],
 								"url": "{{server-online}}/gudang/selection-retur"
+							},
+							"response": []
+						},
+						{
+							"name": "semua pengiriman retur",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{server-online}}/gudang/all-retur"
+							},
+							"response": []
+						},
+						{
+							"name": "checkmark status retur",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "656f60b1deccb0d970d551a8",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{server-online}}/gudang/status-retur"
 							},
 							"response": []
 						}

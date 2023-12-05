@@ -24,3 +24,10 @@ NOTE - 5 Des 2023
 
 CEK UPDATED POSTMAN!!
 =========================================================
+NOTE - 6 Des 2023
+- fitur retur sudah berjalan dengan baik, CEK UPDATE POSTMAN!
+- all revisi sudah berjalan dengan baik!!
+
+JIKA ADA YANG BERMASALAH CHAT YURIDAN!!
+CEK UPDATED POSTMAN!!
+=========================================================

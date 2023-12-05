@@ -36,6 +36,9 @@ Router.post("/checkmark-finished",keluar.checkMarkstatusKirim);
 
 const retur = require("../controllers/barangRetur");
 Router.get("/selection-retur", retur.calculateRetur);
+Router.get("/all-retur",retur.findAllBarangReturWithDetail);
+Router.post("/add-retur",retur.addRetur);
+Router.post("/status-retur",retur.statusBarangRetur);
 
 const kurir = require("../controllers/kurir");
 Router.post("/add-kurir",kurir.addKurir);
