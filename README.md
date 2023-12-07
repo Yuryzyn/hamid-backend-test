@@ -1,4 +1,4 @@
-=========================================================
+---------------------------------------------------------
 NOTE - 22 Nov 2023
 data yang ditambahkan :
 - barang rusak => noNota
@@ -12,7 +12,7 @@ root yang berubah :
 - retur-root berubah menjadi barang-rusak-root (data masih mirip dengan tambahan data noNota) CEK POSTMAN FILE TERBARU
 
 - fitur baru RETUR belum di buat*
-=========================================================
+---------------------------------------------------------
 NOTE - 5 Des 2023
 - penjualan - status kirim (triggered button, desain sesuai status di database, gunakan konfirmasi)
 - pengiriman -status kirim (trigger button desain sesuai status di database, gunakan konfirmasi)
@@ -22,11 +22,15 @@ NOTE - 5 Des 2023
 
 * fitur retur masih bermasalah
 
-CEK UPDATED POSTMAN!!
-=========================================================
+---------------------------------------------------------
 NOTE - 6 Des 2023
 - fitur retur sudah berjalan dengan baik, CEK UPDATE POSTMAN!
 - all revisi sudah berjalan dengan baik!!
+
+---------------------------------------------------------
+NOTE - 8 Des 2023
+- PENTING!! tglKirim di model dan database penjualan dirubah menjadi tglJual
+- API baru kalkulasi keuntungan untuk dashboard, cek note di postman!
 
 JIKA ADA YANG BERMASALAH CHAT YURIDAN!!
 CEK UPDATED POSTMAN!!

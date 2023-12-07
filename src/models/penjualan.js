@@ -34,13 +34,9 @@ const PenjualanSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    tglKirim: {
+    tglJual: {
       type: Date,
-      required: false,
-    },
-    tglTerima: {
-      type: Date,
-      required: false,
+      required: true,
     },
     statusKirim: {
       type: String,

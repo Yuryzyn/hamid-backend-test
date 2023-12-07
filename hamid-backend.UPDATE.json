@@ -1142,7 +1142,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"penjualanItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahBeli\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahBeli\": 100\n    }\n  ],\n  \"noNota\": \"AA\",\n  \"idKaryawan\": \"646dd90cc8d8ac3066fa0288\",\n  \"idPembeli\": \"64b11ae7d9a62ffb9485f5fa\",\n  \"alamatKirim\": \"Gang Jambu nomor 97, Sidoarjo\",\n  \"tglKirim\": \"2023-10-28\"\n}",
+									"raw": "{\n  \"penjualanItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahBeli\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahBeli\": 100\n    }\n  ],\n  \"noNota\": \"AA\",\n  \"idKaryawan\": \"646dd90cc8d8ac3066fa0288\",\n  \"idPembeli\": \"64b11ae7d9a62ffb9485f5fa\",\n  \"alamatKirim\": \"Gang Jambu nomor 97, Sidoarjo\",\n  \"tglJual\": \"2023-10-28\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1592,6 +1592,44 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Dashboard kalkulasi keuntungan",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "waktu",
+							"value": "2023",
+							"description": "value waktu bisa berupa :\n1. currentDate format date ISO string, contoh: 2023-12-30\n2. nama bulan dengan kapital, contoh: Mei, Maret, Desember\n3. penulisan list format paten currentDate, contoh: harian, bulanan, tahunan\n4. tahun dengan Number, contoh: 2021, 2022, 2023",
+							"type": "text"
+						},
+						{
+							"key": "startDate",
+							"value": "2023-10-25",
+							"description": "1. format date ISO string, contoh: 2023-12-29\n2. waktu harus sebelum endDate\n3. bisa dikosongkan dan value auto generate dengan value \"waktu\"",
+							"type": "text"
+						},
+						{
+							"key": "endDate",
+							"value": "2023-10-29",
+							"description": "1. format date ISO string, contoh: 2023-12-30\n2. waktu harus sesudah startDate\n3. bisa dikosongkan dan value auto generate dengan value \"waktu\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": "{{server-online}}/penjualan/report"
+			},
+			"response": []
 		}
 	],
 	"event": [

@@ -18,7 +18,7 @@ class PenjualanController {
           idKaryawan: data.idKaryawan,
           idPembeli: data.idPembeli,
           alamatKirim: data.alamatKirim,
-          tglKirim: data.tglKirim,
+          tglJual: data.tglJual,
           penjualanItems: [], // Inisialisasi array penjualanItems
           hargaTotal: 0, // Inisialisasi hargaTotal
         })
@@ -107,6 +107,7 @@ class PenjualanController {
                       barang: barangFinal[index],
                     })),
                     nomorSuratJalan: data.nomorSuratJalan,
+                    tglJual: data.tglJual,
                     alamatKirim: data.alamatKirim,
                     hargaTotal: data.hargaTotal,
                     statusKirim: data.statusKirim,
