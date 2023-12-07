@@ -12,6 +12,6 @@ Router.use("/gudang",gudang);
 Router.use("/penjualan",penjualan);
 Router.get("/", (req, res, next) => {
     res.send("Server Hamid : Online!");
-})
+});
 
 module.exports = Router;
