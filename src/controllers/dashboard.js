@@ -17,13 +17,13 @@ class dashboardController {
     startDate = new Date(requestedStartDate);
     endDate = new Date(requestedEndDate);
   } else {
-  if (waktu === "perhari") {
+  if (waktu === "harian") {
     startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
     endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
-  } else if (waktu === "perbulan") {
+  } else if (waktu === "bulanan") {
     startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-  } else if (waktu === "pertahun") {
+  } else if (waktu === "tahunan") {
     startDate = new Date(currentDate.getFullYear(), 0, 1);
     endDate = new Date(currentDate.getFullYear() + 1, 0, 1);
   } else if (/^\d{4}$/.test(waktu)) {
