@@ -41,6 +41,10 @@ const BarangKeluarSchema = new mongoose.Schema({
     type: String,
     required : true,
   },
+  alamatKirim: {
+    type: String,
+    required : true,
+  },
   statusKirim: {
     type: String,
     default: "on-process",

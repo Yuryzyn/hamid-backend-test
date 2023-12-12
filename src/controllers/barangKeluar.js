@@ -318,76 +318,72 @@ class BarangKeluarController {
             }
     
             // Membuat array promise untuk mendapatkan detail penjualan dan pembeli
-            const promises = barangKeluarData.map((barangKeluar) => {
-                return penjualan.findOne({ noNota: barangKeluar.noNota })
-                    .then((penjualanData) => {
-                        if (penjualanData) {
-                            // Tambahkan data penjualan ke formattedBarang
-                            const formattedBarang = {
-                                _id: barangKeluar._id,
-                                noNota: barangKeluar.noNota,
-                                barangKeluarItems: barangKeluar.barangKeluarItems.map((item) => {
-                                    const detailBarang = {
-                                        _id: item.idBarang._id,
-                                        jenis: item.idBarang.jenis,
-                                        merk: item.idBarang.merk,
-                                        hargaBeli: item.idBarang.hargaBeli,
-                                        hargaJual: item.idBarang.hargaJual,
-                                        fotoBarang: item.idBarang.fotoBarang,
-                                    };
-    
-                                    return {
-                                        idBarang: item.idBarang._id,
-                                        detailBarang,
-                                        jumlahKeluar: item.jumlahKeluar,
-                                        _id: item._id,
-                                    };
-                                }),
-                                kurir: {
-                                    _id: barangKeluar.idKurir._id,
-                                    namaKurir: barangKeluar.idKurir.namaKurir,
-                                    tlpnKurir: barangKeluar.idKurir.tlpnKurir,
-                                    alamatKurir: barangKeluar.idKurir.alamatKurir,
-                                    nopolKendaraan: barangKeluar.idKurir.nopolKendaraan,
-                                    tipeKendaraan: barangKeluar.idKurir.tipeKendaraan,
-                                },
-                                nomorSuratJalan: barangKeluar.nomorSuratJalan,
-                                tanggalKeluar: barangKeluar.tanggalKeluar,
-                                alamatKirim: barangKeluar.alamatKirim,
-                                statusKirim: barangKeluar.statusKirim,
-                                create: barangKeluar.create,
-                                update: barangKeluar.update,
-                                detailPenjualan: {
-                                    noNota: penjualanData.noNota,
-                                    idKaryawan: penjualanData.idKaryawan,
-                                    idPembeli: penjualanData.idPembeli,
-                                    alamatKirim: penjualanData.alamatKirim,
-                                    hargaTotal: penjualanData.hargaTotal,
-                                    tglJual: penjualanData.tglJual,
-                                    statusKirim: penjualanData.statusKirim,
-                                    // Tambahkan properti lain yang diperlukan
-                                },
-                                detailPembeli: null, // Placeholder untuk detailPembeli
+            const promises = barangKeluarData.map(async (barangKeluar) => {
+                const penjualanData = await penjualan.findOne({ noNota: barangKeluar.noNota });
+                if (penjualanData) {
+                    // Tambahkan data penjualan ke formattedBarang
+                    const formattedBarang = {
+                        _id: barangKeluar._id,
+                        noNota: barangKeluar.noNota,
+                        barangKeluarItems: barangKeluar.barangKeluarItems.map((item) => {
+                            const detailBarang = {
+                                _id: item.idBarang._id,
+                                jenis: item.idBarang.jenis,
+                                merk: item.idBarang.merk,
+                                hargaBeli: item.idBarang.hargaBeli,
+                                hargaJual: item.idBarang.hargaJual,
+                                fotoBarang: item.idBarang.fotoBarang,
                             };
-    
-                            // Mencari detailPembeli berdasarkan idPembeli
-                            return pembeli.findOne({ _id: penjualanData.idPembeli })
-                                .then((pembeliData) => {
-                                    if (pembeliData) {
-                                        formattedBarang.detailPembeli = {
-                                            _id: pembeliData._id,
-                                            nama: pembeliData.nama,
-                                            tlpn: pembeliData.tlpn,
-                                            nik: pembeliData.nik,
-                                            alamat: pembeliData.alamat,
-                                            // Tambahkan properti lain yang diperlukan
-                                        };
-                                    }
-                                    return formattedBarang;
-                                });
-                        }
-                        return null;
-                    });
+
+                            return {
+                                idBarang: item.idBarang._id,
+                                detailBarang,
+                                jumlahKeluar: item.jumlahKeluar,
+                                _id: item._id,
+                            };
+                        }),
+                        kurir: {
+                            _id: barangKeluar.idKurir._id,
+                            namaKurir: barangKeluar.idKurir.namaKurir,
+                            tlpnKurir: barangKeluar.idKurir.tlpnKurir,
+                            alamatKurir: barangKeluar.idKurir.alamatKurir,
+                            nopolKendaraan: barangKeluar.idKurir.nopolKendaraan,
+                            tipeKendaraan: barangKeluar.idKurir.tipeKendaraan,
+                        },
+                        nomorSuratJalan: barangKeluar.nomorSuratJalan,
+                        tanggalKeluar: barangKeluar.tanggalKeluar,
+                        alamatKirim: barangKeluar.alamatKirim,
+                        statusKirim: barangKeluar.statusKirim,
+                        create: barangKeluar.create,
+                        update: barangKeluar.update,
+                        detailPenjualan: {
+                            noNota: penjualanData.noNota,
+                            idKaryawan: penjualanData.idKaryawan,
+                            idPembeli: penjualanData.idPembeli,
+                            alamatKirim: penjualanData.alamatKirim,
+                            hargaTotal: penjualanData.hargaTotal,
+                            tglJual: penjualanData.tglJual,
+                            statusKirim: penjualanData.statusKirim,
+                        },
+                        detailPembeli: null, // Placeholder untuk detailPembeli
+                    };
+
+                    // Mencari detailPembeli berdasarkan idPembeli
+                    return pembeli.findOne({ _id: penjualanData.idPembeli })
+                        .then((pembeliData) => {
+                            if (pembeliData) {
+                                formattedBarang.detailPembeli = {
+                                    _id: pembeliData._id,
+                                    nama: pembeliData.nama,
+                                    tlpn: pembeliData.tlpn,
+                                    nik: pembeliData.nik,
+                                    alamat: pembeliData.alamat,
+                                };
+                            }
+                            return formattedBarang;
+                        });
+                }
+                return null;
             });
     
             // Jalankan semua promise sekaligus
