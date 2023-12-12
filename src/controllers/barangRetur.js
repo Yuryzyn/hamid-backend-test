@@ -7,52 +7,53 @@ class BarangReturController {
 
     static addRetur(req, res, next) {
         let data = req.body;
-        const { idBarang, jumlahRetur } = data;
+        const { barangReturItems, idKurir, nomorSuratJalan } = data;
+    
+        // Membuat array promise untuk setiap barangReturItem
+        const promises = barangReturItems.map(async ({ idBarang, jumlahRetur }) => {
+            const barangItem = await barang.findById(idBarang);
+            if (!barangItem) {
+                throw new Error("Barang tidak ditemukan");
+            }
+            if (barangItem.jumlahRusak === 0) {
+                throw new Error("Jumlah barang rusak sudah nol");
+            }
+            const returItem = await retur.findOne({ "barangReturItems.idBarang": idBarang });
+            if (returItem) {
+                const barangReturItem = returItem.barangReturItems.find(item => item.idBarang === idBarang);
+                const remainingRetur = barangReturItem.jumlahRetur - jumlahRetur;
 
-        // Langkah 1: Cari di dalam database barang
-        barang.findOne({ idBarang })
-            .then((barangItem) => {
-                if (!barangItem) {
-                    throw new Error("Barang tidak ditemukan");
-                }
-
-                if (barangItem.jumlahRusak === 0) {
-                    throw new Error("Jumlah barang rusak sudah nol");
-                }
-
-                // Langkah 2: Cari di dalam database barang retur
-                return retur.findOne({ "barangReturItems.idBarang": idBarang });
-            })
-            .then((returItem) => {
-                if (returItem) {
-                    // Langkah 3: Kurangi jumlahRetur dengan jumlahRusak
-                    const barangReturItem = returItem.barangReturItems.find(item => item.idBarang === idBarang);
-                    const remainingRetur = barangReturItem.jumlahRetur - jumlahRetur;
-
-                    // Langkah 4: Handle kondisi pengurangan
-                    if (remainingRetur === 0) {
-                        throw new Error("Retur sudah dikirimkan");
-                    } else if (remainingRetur < 0) {
-                        throw new Error("Error database");
-                    } else {
-                        barangReturItem.jumlahRetur = remainingRetur;
-
-                        // Simpan perubahan
-                        return returItem.save();
-                    }
+                if (remainingRetur === 0) {
+                    throw new Error("Retur sudah dikirimkan");
+                } else if (remainingRetur < 0) {
+                    throw new Error("Error database");
                 } else {
-                    // Langkah 5: Create barangRetur jika tidak ditemukan
-                    return retur.create(data);
+                    barangReturItem.jumlahRetur = remainingRetur;
+
+                    // Simpan perubahan
+                    return returItem.save();
                 }
-            })
-            .then((result) => {
-                res.status(201).json({data : result, message : "Data barang kirim retur berhasil di buat!"});
+            } else {
+                // Buat barangRetur jika tidak ditemukan
+                const newReturItem = new retur({
+                    barangReturItems: [{ idBarang, jumlahRetur }],
+                    idKurir,
+                    nomorSuratJalan,
+                });
+
+                return newReturItem.save();
+            }
+        });
+    
+        // Jalankan semua promise sekaligus
+        Promise.all(promises)
+            .then((results) => {
+                res.status(201).json({ data: results, message: "Data barang kirim retur berhasil di buat!" });
             })
             .catch((error) => {
                 res.status(500).json({ error: error.message });
             });
     }
-
 
     static calculateRetur(req, res, next) {
         let data = req.body;
