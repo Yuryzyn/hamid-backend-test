@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const barangKeluar = require("../models/barangKeluar.js");
 const penjualan = require("../models/penjualan.js");
 const barang = require("../models/barang.js")
+const gudang = require("../models/gudang.js")
 
 class BarangKeluarController {
 
@@ -41,7 +42,9 @@ class BarangKeluarController {
                     message: "pengiriman ini sudah di kirim!",
                 };
             } else if ( response.statusKirim === "deliver" ) {
+                // penjualan.findOneAndUpdate({noNota : response.noNota},{jumlahBarangv : jumlahBarang += data.}).then
                 return barangKeluar.updateOne({ _id: _id }, { statusKirim: statusKirim }).exec();
+                
             } else {
                 throw {
                     status: 404,
@@ -254,6 +257,19 @@ class BarangKeluarController {
 
                         return newBarangKeluar.save().then((savedBarangKeluar) => {
                             if (statusKirim === "deliver") {
+
+                                barangKeluarItems.forEach((barangKeluarItem) => {
+                                    const idBarang = barangKeluarItem.idBarang;
+                                    const jumlahKeluar = barangKeluarItem.jumlahKeluar;
+                
+                                    // Temukan dan kurangi jumlah barang di model gudang dengan idBarang yang sama
+                                    // Contoh: Kurangi jumlah barang di GudangModel dengan idBarang === idBarang
+                                    gudang.updateOne(
+                                        { idBarang: idBarang },
+                                        { $inc: { jumlahBarang: -jumlahKeluar } }
+                                    ).exec();
+                                });
+
                                 const totalPenjualanItems = penjualanData.penjualanItems.reduce((total, item) => total + item.jumlahBeli, 0);
     
                                 if (totalPenjualanItems === dataKeluarFinal) {
@@ -271,6 +287,8 @@ class BarangKeluarController {
                                         });
                                     });
                                 }
+
+
                             } else {
                                 res.status(200).json({
                                     message: "Data Barang Keluar telah berhasil dibuat.",

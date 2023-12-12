@@ -6,7 +6,6 @@ const gudangSchema = new mongoose.Schema({
     idBarang : {
         type : String,
         require : [true,"ID Barang harus di isi!"],
-
     },
     jumlahBarang : {
         type : Number,
@@ -21,7 +20,6 @@ const gudangSchema = new mongoose.Schema({
     rusakNonRetur : {
         type : Number,
         Default : 0,
-
     },
     
 },{
