@@ -129,10 +129,11 @@ class PenjualanController {
 
     static checkPengiriman(req, res, next){
         let data = req.body
-
-        jual.findByIdAndUpdate({
+        let statusNya = ""
+        jual.findById({
             _id : data._id
         }).then((response)=>{
+          // return console.log(response)
             if(response.statusKirim === "canceled") {
                 throw{
                     status : 403,
@@ -153,13 +154,15 @@ class PenjualanController {
                     status : 400,
                     message : "Error, data tidak ditemukan!"
                 }
-            } else if (response.statusKirim === "deliver" || "half-deliver") {
+            } else if (response.statusKirim === "deliver" || response.statusKirim === "half-deliver") {
+                statusNya = "delivered"
                 return jual.findByIdAndUpdate({
                     _id : response._id
                 },{
                     statusKirim : "delivered"
                 })
             } else if (response.statusKirim === "on-process"){
+                    statusNya = "canceled"
                     return jual.findByIdAndUpdate({
                         _id : response._id
                     },{
@@ -174,7 +177,7 @@ class PenjualanController {
             
         }).then((r)=>{
             res.status(200).json({
-                message: "Berhasil mengupdate status penjualan dengan nomor surat jalan : " + data.nomorSuratJalan
+                message: "Berhasil mengupdate status ke " + statusNya
             })
         }).catch(next)
 
