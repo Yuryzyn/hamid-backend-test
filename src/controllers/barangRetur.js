@@ -5,114 +5,71 @@ const gudang = require("../models/gudang")
 
 class BarangReturController {
 
-    static addRetur(req, res, next) {
-        let data = req.body;
-        const { barangReturItems, idKurir, nomorSuratJalan } = data;
-    
-        // Membuat array promise untuk setiap barangReturItem
-        const promises = barangReturItems.map(async ({ idBarang, jumlahRetur }) => {
-            const barangItem = await barang.findById(idBarang);
-            if (!barangItem) {
-                throw new Error("Barang tidak ditemukan");
-            }
-            if (barangItem.jumlahRusak === 0) {
-                throw new Error("Jumlah barang rusak sudah nol");
-            }
-            const returItem = await retur.findOne({ "barangReturItems.idBarang": idBarang });
-            if (returItem) {
-                const barangReturItem = returItem.barangReturItems.find(item => item.idBarang === idBarang);
-                const remainingRetur = barangReturItem.jumlahRetur - jumlahRetur;
+    static async addRetur(req, res, next) {
+        const data = req.body;
 
-                if (remainingRetur === 0) {
-                    throw new Error("Retur sudah dikirimkan");
-                } else if (remainingRetur < 0) {
-                    throw new Error("Error database");
+        retur.create(data)
+          .then((retur) => {
+            res.status(200).json({retur, message : "Data berhasil disimpan"});
+          })
+          .catch(next);
+      }
+
+    static async calculateRetur(req, res, next) {
+        try {
+            const gudangItems = await gudang.find({ jumlahRusak: { $gt: 0 } });
+    
+            const promises = gudangItems.map(async (gudangItem) => {
+                const returItems = await retur.find({
+                    "barangReturItems.idBarang": gudangItem.idBarang
+                });
+                
+                // console.log("returItems:", returItems)
+                let totalRetur = 0;
+    
+                returItems.forEach((returItem) => {
+                    returItem.barangReturItems.forEach((barangReturItem) => {
+                        if (barangReturItem.idBarang === gudangItem.idBarang) {
+                            totalRetur += barangReturItem.jumlahRetur;
+                        }
+                    });
+                });
+    
+                gudangItem.jumlahRusak -= totalRetur;
+    
+                if (gudangItem.jumlahRusak > 0) {
+                    return {
+                        idBarang: gudangItem.idBarang,
+                        jumlahRusak: gudangItem.jumlahRusak
+                    };
+                } else if (gudangItem.jumlahRusak < 0) {
+                    return { idBarang: gudangItem.idBarang, error: "data ini bermasalah!" };
                 } else {
-                    barangReturItem.jumlahRetur = remainingRetur;
-
-                    // Simpan perubahan
-                    return returItem.save();
+                    return null;
                 }
-            } else {
-                // Buat barangRetur jika tidak ditemukan
-                const newReturItem = new retur({
-                    barangReturItems: [{ idBarang, jumlahRetur }],
-                    idKurir,
-                    nomorSuratJalan,
-                });
-
-                return newReturItem.save();
-            }
-        });
-    
-        // Jalankan semua promise sekaligus
-        Promise.all(promises)
-            .then((results) => {
-                res.status(201).json({ data: results, message: "Data barang kirim retur berhasil di buat!" });
-            })
-            .catch((error) => {
-                res.status(500).json({ error: error.message });
             });
-    }
-
-    static calculateRetur(req, res, next) {
-        let data = req.body;
     
-        gudang.find({ jumlahRusak: { $gt: 0 } })
-            .then((gudangItems) => {
-                const promises = gudangItems.map((gudangItem) => {
-                    return retur.find({
-                        "barangReturItems.idBarang": gudangItem.idBarang,
-                        statusRetur: { $in: ["deliver", "delivered"] }
-                    })
-                        .then((returItems) => {
-                            const totalRetur = returItems.reduce((acc, returItem) => {
-                                const barangReturItem = returItem.barangReturItems.find(item => item.idBarang === gudangItem.idBarang);
-                                if (barangReturItem) {
-                                    return acc + barangReturItem.jumlahRetur;
-                                }
-                                return acc;
-                            }, 0);
+            const result = await Promise.all(promises);
     
-                            gudangItem.jumlahRusak -= totalRetur;
+            // Filter hasil yang tidak null
+            const filteredResult = result.filter(item => item !== null);
     
-                            if (gudangItem.jumlahRusak > 0) {
-                                return {
-                                    idBarang: gudangItem.idBarang,
-                                    jumlahRusak: gudangItem.jumlahRusak
-                                };
-                            } else if (gudangItem.jumlahRusak < 0){
-                                return gudangItem = "data ini bermasalah!";
-                            }
-                            else {
-                                return null;
-                            }
-                        });
-                });
+            const detailPromises = filteredResult.map(async (item) => {
+                const barangDetail = await barang.findOne({ _id: item.idBarang });
     
-                return Promise.all(promises);
-            })
-            .then((result) => {
-                // Filter hasil yang tidak null
-                const filteredResult = result.filter(item => item !== null);
+                return {
+                    idBarang: item.idBarang,
+                    jumlahRusak: item.jumlahRusak,
+                    detailBarang: barangDetail
+                };
+            });
     
-                const detailPromises = filteredResult.map((item) => {
-                    return barang.findOne({ _id: item.idBarang })
-                        .then((barangDetail) => {
-                            return {
-                                idBarang: item.idBarang,
-                                jumlahRusak: item.jumlahRusak,
-                                detailBarang: barangDetail
-                            };
-                        });
-                });
+            const finalResult = await Promise.all(detailPromises);
     
-                return Promise.all(detailPromises);
-            })
-            .then((finalResult) => {
-                res.status(200).json({data: finalResult, message: "Data barang yang bisa di retur berhasil di muat!"});
-            })
-            .catch(next);
+            res.status(200).json({ data: finalResult, message: "Data barang yang bisa di retur berhasil di muat!" });
+        } catch (error) {
+            next(error);
+        }
     }
 
     static findAllBarangReturWithDetail(req, res, next) {
@@ -153,9 +110,12 @@ class BarangReturController {
 
     static statusBarangRetur(req, res, next) {
         const _id = req.body; // Sesuaikan dengan parameter yang Anda gunakan di route
+        let returItemsInc
 
         retur.findById(_id)
-            .then((returItem) => {
+            .then(async (returItem) => {
+                returItemsInc = returItem
+                // console.log(returItem)
                 if (!returItem) {
                     throw new Error("Barang retur tidak ditemukan");
                 }
@@ -166,16 +126,22 @@ class BarangReturController {
 
                 if (returItem.statusRetur === "deliver") {
                     const promises = returItem.barangReturItems.map((barangReturItem) => {
+                        console.log(barangReturItem)
                         return gudang.findOne({ idBarang: barangReturItem.idBarang })
                             .then((gudangItem) => {
                                 if (!gudangItem) {
                                     throw new Error(`Barang dengan id ${barangReturItem.idBarang} tidak ditemukan di gudang`);
                                 }
 
-                                gudangItem.jumlahBarang += barangReturItem.jumlahRetur;
-                                gudangItem.jumlahRusak -= barangReturItem.jumlahRetur;
+                                return gudang.findOneAndUpdate(
+                                    { idBarang: gudangItem.idBarang },
+                                    { $inc: { jumlahBarang: +gudangItem.jumlahRusak, jumlahRusak: -gudangItem.jumlahRusak } }
+                                ).exec();
+                                // // gudang.updateOne({returItemsInc},{})
+                                // gudangItem.jumlahBarang += barangReturItem.jumlahRetur;
+                                // gudangItem.jumlahRusak -= barangReturItem.jumlahRetur;
 
-                                return Promise.all([gudangItem.save(), barang.findOneAndUpdate({ idBarang: barangReturItem.idBarang }, { $inc: { jumlahBarang: barangReturItem.jumlahRetur } })]);
+                                // return Promise.all([gudangItem.save(), gudang.findOneAndUpdate({ idBarang: barangReturItem.idBarang }, { jumlahBarang: gudangItem.jumlahBarang, jumlahRusak: gudangItem.jumlahRusak })]);
                             });
                     });
 

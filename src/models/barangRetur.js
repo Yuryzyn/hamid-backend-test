@@ -24,7 +24,7 @@ const BarangReturSchema = new mongoose.Schema({
   statusRetur: {
     type: String,
     default: "deliver",
-    // deliver, finished
+    // deliver,finished
   },
   tanggalRetur : {
     type : Date,
