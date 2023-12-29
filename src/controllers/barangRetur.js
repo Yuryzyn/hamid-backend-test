@@ -126,25 +126,17 @@ class BarangReturController {
 
                 if (returItem.statusRetur === "deliver") {
                     const promises = returItem.barangReturItems.map((barangReturItem) => {
-                        console.log(barangReturItem)
                         return gudang.findOne({ idBarang: barangReturItem.idBarang })
                             .then((gudangItem) => {
                                 if (!gudangItem) {
                                     throw new Error(`Barang dengan id ${barangReturItem.idBarang} tidak ditemukan di gudang`);
                                 }
-
                                 return gudang.findOneAndUpdate(
                                     { idBarang: gudangItem.idBarang },
                                     { $inc: { jumlahBarang: +gudangItem.jumlahRusak, jumlahRusak: -gudangItem.jumlahRusak } }
                                 ).exec();
-                                // // gudang.updateOne({returItemsInc},{})
-                                // gudangItem.jumlahBarang += barangReturItem.jumlahRetur;
-                                // gudangItem.jumlahRusak -= barangReturItem.jumlahRetur;
-
-                                // return Promise.all([gudangItem.save(), gudang.findOneAndUpdate({ idBarang: barangReturItem.idBarang }, { jumlahBarang: gudangItem.jumlahBarang, jumlahRusak: gudangItem.jumlahRusak })]);
                             });
                     });
-
                     return Promise.all(promises);
                 }
             })
