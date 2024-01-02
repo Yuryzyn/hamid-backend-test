@@ -125,23 +125,16 @@ class BarangReturController {
                 }
 
                 if (returItem.statusRetur === "deliver") {
-                    const promises = returItem.barangReturItems.map((barangReturItem) => {
-                        return gudang.findOne({ idBarang: barangReturItem.idBarang })
-                            .then((gudangItem) => {
-                                if (!gudangItem) {
-                                    throw new Error(`Barang dengan id ${barangReturItem.idBarang} tidak ditemukan di gudang`);
-                                }
-                                return gudang.findOneAndUpdate(
-                                    { idBarang: gudangItem.idBarang },
-                                    { $inc: { jumlahBarang: +gudangItem.jumlahRusak, jumlahRusak: -gudangItem.jumlahRusak } }
-                                ).exec();
-                            });
+                    const promises = returItem.barangReturItems.map(async (barangReturItem) => {
+                        return gudang.findOneAndUpdate(
+                            { idBarang: barangReturItem.idBarang },
+                            { $inc: { jumlahBarang: +barangReturItem.jumlahRetur, jumlahRusak: -barangReturItem.jumlahRetur } }
+                        ).exec();
                     });
-                    return Promise.all(promises);
+                    return Promise.all(promises).then(()=>{
+                        return retur.findByIdAndUpdate(_id, { statusRetur: "finished" }).exec();
+                    }).exec();
                 }
-            })
-            .then(() => {
-                return retur.findByIdAndUpdate(_id, { statusRetur: "finished" }, { new: true });
             })
             .then((updatedRetur) => {
                 res.status(200).json({message: "data ini telah di konfirmasi berhasil di retur!", data: updatedRetur});

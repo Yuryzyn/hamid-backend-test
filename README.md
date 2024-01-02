@@ -32,6 +32,11 @@ NOTE - 8 Des 2023
 - PENTING!! tglKirim di model dan database penjualan dirubah menjadi tglJual
 - API baru kalkulasi keuntungan untuk dashboard, cek note di postman!
 
+---------------------------------------------------------
+NOTE - 2 Januari 2024
+- major fix sistem barang keluar, retur, rusak. terutama bagian update status dll.
+- API baru untuk Pie Chart barang di dashboard, cek update postman!
+
 JIKA ADA YANG BERMASALAH CHAT YURIDAN!!
-CEK UPDATED POSTMAN!!
+CEK UPDATED POSTMAN!! FILE NAME >> hamid-backend.UPDATE.json
 =========================================================

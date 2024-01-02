@@ -10,21 +10,45 @@ class BarangKeluarController {
     static findNoNota(req, res, next) {
         penjualan.distinct("noNota", {
             statusKirim: { $in: ["on-process", "half-deliver"] },
-
-        }).then((noNotaList) => {
-            if(noNotaList.length == 0){
+        })
+        .then(async (noNotaList) => {
+            if (noNotaList.length === 0) {
                 throw {
                     status: 404,
-                    message: "noNota dengan status on-process atau half-deliver tidak ditemukan atau sudah selesai dikirim.",
-                    };
-            }else{
-                res.status(200).json({
-                    data: noNotaList,
-                    message: "Berhasil menemukan semua noNota dengan status on-process atau half-deliver.",
-                });
+                    message: "NoNota dengan status on-process atau half-deliver tidak ditemukan atau sudah selesai dikirim.",
+                };
             }
-
-        }).catch(next);
+    
+            const validNoNotaList = [];
+    
+            const promises = noNotaList.map(async (noNota) => {
+                const penjualanData = await penjualan.findOne({ noNota });
+    
+                const isBarangAvailableInGudang = await Promise.all(penjualanData.penjualanItems.map(async (item) => {
+                    const gudangData = await gudang.findOne({ idBarang: item.idBarang });
+                    return gudangData !== null;
+                }));
+    
+                if (isBarangAvailableInGudang.every((isAvailable) => isAvailable)) {
+                    validNoNotaList.push(noNota);
+                }
+            });
+    
+            await Promise.all(promises);
+    
+            if (validNoNotaList.length === 0) {
+                throw {
+                    status: 404,
+                    message: "Tidak ada NoNota dengan status on-process atau half-deliver yang memiliki barang di gudang.",
+                };
+            }
+    
+            res.status(200).json({
+                data: validNoNotaList,
+                message: "Berhasil menemukan semua NoNota dengan status on-process atau half-deliver yang memiliki barang di gudang.",
+            });
+        })
+        .catch(next);
     }
 
     static checkMarkstatusKirim (req,res,next) {
@@ -43,13 +67,12 @@ class BarangKeluarController {
                     message: "pengiriman ini sudah di kirim!",
                 };
             } else if ( response.statusKirim === "deliver" ) {
-                // penjualan.findOneAndUpdate({noNota : response.noNota},{jumlahBarangv : jumlahBarang += data.}).then
                 return barangKeluar.updateOne({ _id: _id }, { statusKirim: statusKirim }).exec();
                 
             } else {
                 throw {
                     status: 404,
-                    message: "database error, hubungi super-admin!",
+                    message: "status error, hubungi super-admin!",
                 };
             }
         }).then(()=>{
@@ -221,7 +244,7 @@ class BarangKeluarController {
                         message: "NoNota tidak ditemukan dalam database Penjualan.",
                     });
                 }
-    
+
                 const totalBarangKeluarItems = barangKeluarItems.reduce((total, item) => total + item.jumlahKeluar, 0);
                 
                 if (totalBarangKeluarItems > 1000) {
@@ -260,12 +283,14 @@ class BarangKeluarController {
                             if (statusKirim === "deliver") {
 
                                 barangKeluarItems.forEach((barangKeluarItem) => {
+                                    console.log(barangKeluarItem)
                                     const idBarang = barangKeluarItem.idBarang;
                                     const jumlahKeluar = barangKeluarItem.jumlahKeluar;
                 
                                     // Temukan dan kurangi jumlah barang di model gudang dengan idBarang yang sama
                                     // Contoh: Kurangi jumlah barang di GudangModel dengan idBarang === idBarang
-                                    gudang.updateOne(
+                                    console.log(jumlahKeluar)
+                                    return gudang.updateOne(
                                         { idBarang: idBarang },
                                         { $inc: { jumlahBarang: -jumlahKeluar } }
                                     ).exec();
@@ -288,7 +313,6 @@ class BarangKeluarController {
                                         });
                                     });
                                 }
-
 
                             } else {
                                 res.status(200).json({
@@ -326,6 +350,11 @@ class BarangKeluarController {
                         _id: barangKeluar._id,
                         noNota: barangKeluar.noNota,
                         barangKeluarItems: barangKeluar.barangKeluarItems.map((item) => {
+                            // console.log('item.idBarang._id:', item.idBarang._id);
+                            const idBarang = item.idBarang._id;
+                            const jumlahRusakItem = barangKeluar.telahRusakItems.find(rusakItem => rusakItem.idBarang.toString() === idBarang.toString());
+                            // console.log('jumlahRusakItem:', jumlahRusakItem);
+
                             const detailBarang = {
                                 _id: item.idBarang._id,
                                 jenis: item.idBarang.jenis,
@@ -334,11 +363,13 @@ class BarangKeluarController {
                                 hargaJual: item.idBarang.hargaJual,
                                 fotoBarang: item.idBarang.fotoBarang,
                             };
-
+                            
                             return {
                                 idBarang: item.idBarang._id,
                                 detailBarang,
                                 jumlahKeluar: item.jumlahKeluar,
+                                jumlahRusak: jumlahRusakItem ? jumlahRusakItem.jumlahRusak : 0,
+                                // jumlahTotal: jumlahKeluar + jumlahRusak,
                                 _id: item._id,
                             };
                         }),

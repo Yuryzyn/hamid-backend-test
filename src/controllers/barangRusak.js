@@ -187,7 +187,6 @@ class BarangRusakController {
                         }, {
                             $inc: {
                                 jumlahRusak: +r.jumlahRusak,
-                                jumlahBarang: -r.jumlahRusak,
                             },
                         });
                     } else if (data.statusRusak === "tidak bisa retur") {
@@ -196,7 +195,6 @@ class BarangRusakController {
                         }, {
                             $inc: {
                                 rusakNonRetur: +r.jumlahRusak,
-                                jumlahBarang: -r.jumlahRusak,
                             },
                         });
                     } else {

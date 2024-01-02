@@ -46,4 +46,8 @@ Router.post("/edit-kurir",kurir.editKurir);
 Router.post("/find-id-kurir",kurir.findOneKurir);
 Router.get("/all-kurir",kurir.findAllKurir);
 
+const dashboard = require("../controllers/dashboard");
+Router.get("/report-in",dashboard.laporanBarangMasuk);
+Router.get("/report-out",dashboard.laporanBarangKeluar);
+
 module.exports = Router;

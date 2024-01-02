@@ -43,12 +43,12 @@
 									"urlencoded": [
 										{
 											"key": "idKirim",
-											"value": "6569fa726c9a8e32a69bbe19",
+											"value": "6573cab40d0b057c1b5dde4d",
 											"type": "text"
 										},
 										{
 											"key": "idBarang",
-											"value": "646e3e3ea48e4886b8af6bb5",
+											"value": "646e1df1ef376f098e2ffd7e",
 											"type": "text"
 										},
 										{
@@ -58,7 +58,7 @@
 										},
 										{
 											"key": "jumlahRusak",
-											"value": "50",
+											"value": "1",
 											"type": "text"
 										}
 									]
@@ -125,7 +125,7 @@
 									"urlencoded": [
 										{
 											"key": "_id",
-											"value": "646f19af8eeb41a879c17e42",
+											"value": "6573cab40d0b057c1b5dde4d",
 											"type": "text"
 										},
 										{
@@ -177,12 +177,12 @@
 									"urlencoded": [
 										{
 											"key": "_id",
-											"value": "656c8b867351c064b4a7d09a",
+											"value": "65771c745d3c971b2733718c",
 											"type": "text"
 										},
 										{
 											"key": "statusRusak",
-											"value": "bisa retur",
+											"value": "tidak bisa retur",
 											"type": "text"
 										}
 									]
@@ -439,7 +439,7 @@
 									"urlencoded": [
 										{
 											"key": "idBarang",
-											"value": "647846ccd972cf802551c34a",
+											"value": "6576d607eeed41154f894ab6",
 											"type": "text"
 										},
 										{
@@ -449,12 +449,12 @@
 										},
 										{
 											"key": "jumlahMasuk",
-											"value": "2000",
+											"value": "1000",
 											"type": "text"
 										},
 										{
 											"key": "tanggalTerima",
-											"value": "2023-06-01",
+											"value": "2023-12-11",
 											"type": "text"
 										},
 										{
@@ -470,7 +470,8 @@
 										{
 											"key": "handleBy",
 											"value": "",
-											"type": "text"
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
@@ -523,7 +524,7 @@
 											"type": "text"
 										},
 										{
-											"key": "handleBy",
+											"key": "_id",
 											"value": "",
 											"type": "text"
 										}
@@ -594,7 +595,7 @@
 									"urlencoded": [
 										{
 											"key": "noNota",
-											"value": "AA8",
+											"value": "A16",
 											"type": "text"
 										}
 									]
@@ -616,7 +617,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"noNota\": \"AA8\",\n  \"barangKeluarItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahKeluar\": 100\n    },\n    {\n      \"idBarang\": \"646e1df1ef376f098e2ffd7e\",\n      \"jumlahKeluar\": 100\n    }\n  ],\n  \"idKurir\" : \"6557897e41640d574f47823a\",\n  \"nomorSuratJalan\": \"123456767543243456543\",\n  \"alamatKirim\": \"JL. Ketintang\",\n  \"tanggalKeluar\": \"2023-11-21T00:00:00.000Z\"\n}",
+									"raw": "{\n  \"noNota\": \"AA20\",\n  \"barangKeluarItems\": [\n    {\n      \"idBarang\": \"6576d607eeed41154f894ab6\",\n      \"jumlahKeluar\": 100\n    }\n  ],\n  \"idKurir\" : \"6557897e41640d574f47823a\",\n  \"nomorSuratJalan\": \"123456767543243411111\",\n  \"alamatKirim\": \"JL. Ketintang\",\n  \"tanggalKeluar\": \"2023-12-30T00:00:00.000Z\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -680,7 +681,7 @@
 									"urlencoded": [
 										{
 											"key": "_id",
-											"value": "653d14a3a7f04bb31c28e906",
+											"value": "6574121cb1dc4e9b5c703fdd",
 											"type": "text"
 										}
 									]
@@ -707,7 +708,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"barangReturItems\": [\n    {\n      \"idBarang\": \"646e3e3ea48e4886b8af6bb5\",\n      \"jumlahRetur\": 50\n    }\n  ],\n  \"idKurir\": \"6557897e41640d574f47823a\",\n  \"nomorSuratJalan\": \"9812472093456712093\"\n}\n",
+									"raw": "{\n  \"barangReturItems\": [\n    {\n      \"idBarang\": \"646e1e0aef376f098e2ffd82\",\n      \"jumlahRetur\": 40\n    }\n  ],\n  \"idKurir\": \"6557897e41640d574f47823a\",\n  \"nomorSuratJalan\": \"98124720934567122222\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1182,7 +1183,7 @@
 								"header": [
 									{
 										"key": "token",
-										"value": "",
+										"value": "{{token}}",
 										"type": "text"
 									}
 								],
@@ -1191,7 +1192,7 @@
 									"urlencoded": [
 										{
 											"key": "_id",
-											"value": "6483b933a7aa988f4fa1bb2a",
+											"value": "657998a06cf669d702ac83cf",
 											"type": "text"
 										},
 										{
@@ -1301,7 +1302,7 @@
 								"header": [
 									{
 										"key": "token",
-										"value": "\"U2FsdGVkX1+UlfPSksFcySoagnxG+Ds7HLexLVXlWDrQYpqhARyQ9GuZgjM3dlXIoyO1wDqUsDwTkmqfa29Wswpv0uhIhTyhBUhgcQAaqbnQBZAuYu5yqMXkQqaL/fBmMN1k6nPD7nPAsYe7kiDy29lRNkWKp2YYr7Ve0desCRxvA7VsKknPEm/aaaMN5WFvp8dknkWQGafcq4cdH+RpRgoGi+ohnLh2Ne2iK2cPkPXjk8h2UIAeuLOVivySiD1zFlHNlHaxnn+klgIG/7RA/Ff+iZkezuPGobwavYDbdE4=\"",
+										"value": "{{token}}",
 										"type": "text"
 									}
 								],
@@ -1330,7 +1331,7 @@
 										},
 										{
 											"key": "tlpn",
-											"value": "0815237653923",
+											"value": "08152376539",
 											"type": "text"
 										},
 										{
@@ -1594,42 +1595,79 @@
 			]
 		},
 		{
-			"name": "Dashboard kalkulasi keuntungan",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "token",
-						"value": "{{token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "waktu",
-							"value": "2023",
-							"description": "value waktu bisa berupa :\n1. currentDate format date ISO string, contoh: 2023-12-30\n2. nama bulan dengan kapital, contoh: Mei, Maret, Desember\n3. penulisan list format paten currentDate, contoh: harian, bulanan, tahunan\n4. tahun dengan Number, contoh: 2021, 2022, 2023",
-							"type": "text"
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Dashboard kalkulasi keuntungan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "waktu",
+									"value": "bulanan",
+									"description": "value waktu bisa berupa :\n1. currentDate format date ISO string, contoh: 2023-12-30\n2. nama bulan dengan kapital, contoh: Mei, Maret, Desember\n3. penulisan list format paten currentDate, contoh: harian, bulanan, tahunan\n4. tahun dengan Number, contoh: 2021, 2022, 2023",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "2023-10-25",
+									"description": "1. format date ISO string, contoh: 2023-12-29\n2. waktu harus sebelum endDate\n3. bisa dikosongkan dan value auto generate dengan value \"waktu\"",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "2023-10-29",
+									"description": "1. format date ISO string, contoh: 2023-12-30\n2. waktu harus sesudah startDate\n3. bisa dikosongkan dan value auto generate dengan value \"waktu\"",
+									"type": "text",
+									"disabled": true
+								}
+							]
 						},
-						{
-							"key": "startDate",
-							"value": "2023-10-25",
-							"description": "1. format date ISO string, contoh: 2023-12-29\n2. waktu harus sebelum endDate\n3. bisa dikosongkan dan value auto generate dengan value \"waktu\"",
-							"type": "text"
-						},
-						{
-							"key": "endDate",
-							"value": "2023-10-29",
-							"description": "1. format date ISO string, contoh: 2023-12-30\n2. waktu harus sesudah startDate\n3. bisa dikosongkan dan value auto generate dengan value \"waktu\"",
-							"type": "text"
-						}
-					]
+						"url": "{{server-online}}/penjualan/report"
+					},
+					"response": []
 				},
-				"url": "{{server-online}}/penjualan/report"
-			},
-			"response": []
+				{
+					"name": "dashboard pie chart barang masuk",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{server-online}}/gudang/report-in"
+					},
+					"response": []
+				},
+				{
+					"name": "dashboard pie chart barang keluar",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{server-online}}/gudang/report-out"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
