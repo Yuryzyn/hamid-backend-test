@@ -205,13 +205,7 @@ class dashboardController {
             });
           });
       })
-      .catch((error) => {
-        console.error('error:', error);
-        return res.status(500).json({
-          error: 'Gagal menghasilkan laporan barang masuk untuk 6 bulan terakhir.',
-          message: error.message
-        });
-      });
+      .catch(next);
   }
 
 
@@ -292,13 +286,7 @@ class dashboardController {
             });
           });
       })
-      .catch((error) => {
-        console.error('error:', error);
-        return res.status(500).json({
-          error: 'Gagal menghasilkan laporan barang keluar untuk 6 bulan terakhir.',
-          message: error.message
-        });
-      });
+      .catch(next);
   }
 }
 
