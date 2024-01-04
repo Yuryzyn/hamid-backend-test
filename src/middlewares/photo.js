@@ -17,6 +17,6 @@ var fotobarang = multer.diskStorage({
   },
 });
 
-var upload = multer({ storage : fotobarang });
+var upload = multer({ storage: fotobarang });
 
 module.exports = { upload };

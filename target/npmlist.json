@@ -1,20 +1,48 @@
 {
-    "version":"1.0.0",
-    "name":"hamid-backend",
-    "dependencies":{
-        "axios":{"version":"1.4.0"},
-        "bcryptjs":{"version":"2.4.3"},
-        "cors":{"version":"2.8.5"},
-        "crypto-js":{"version":"4.1.1"},
-        "crypto":{"version":"1.0.1"},
-        "dotenv":{"version":"16.0.3"},
-        "express":{"version":"4.18.2"},
-        "helmet":{"version":"7.0.0"},
-        "jsonwebtoken":{"version":"9.0.0"},
-        "moment-timezone":{"version":"0.5.43"},
-        "mongodb":{"version":"5.5.0"},
-        "mongoose":{"version":"7.2.0"},
-        "node":{"version":"20.2.0"},
-        "nodemon":{"version":"2.0.22"}
+    "version": "1.0.0",
+    "name": "hamid-backend",
+    "dependencies": {
+        "axios": {
+            "version": "1.4.0"
+        },
+        "bcryptjs": {
+            "version": "2.4.3"
+        },
+        "cors": {
+            "version": "2.8.5"
+        },
+        "crypto-js": {
+            "version": "4.1.1"
+        },
+        "crypto": {
+            "version": "1.0.1"
+        },
+        "dotenv": {
+            "version": "16.0.3"
+        },
+        "express": {
+            "version": "4.18.2"
+        },
+        "helmet": {
+            "version": "7.0.0"
+        },
+        "jsonwebtoken": {
+            "version": "9.0.0"
+        },
+        "moment-timezone": {
+            "version": "0.5.43"
+        },
+        "mongodb": {
+            "version": "5.5.0"
+        },
+        "mongoose": {
+            "version": "7.2.0"
+        },
+        "node": {
+            "version": "20.2.0"
+        },
+        "nodemon": {
+            "version": "2.0.22"
+        }
     }
 }

@@ -4,16 +4,16 @@ const ObjectId = mongoose.Types.ObjectId;
 const Axios = require("axios");
 
 class PembeliController {
-    
-    static addPembeli(req, res, next){
-        let {nama,tlpn,nik,alamat} = req.body
+
+    static addPembeli(req, res, next) {
+        let { nama, tlpn, nik, alamat } = req.body
 
         pembeli.create({
             nama,
             tlpn,
             nik,
             alamat,
-        }).then((r)=>{
+        }).then((r) => {
             res.status(200).json({
                 message: "Berhasil mengirim data pembeli"
             })
@@ -21,31 +21,31 @@ class PembeliController {
 
     }
 
-    static findAllPembeli(req, res, next){
+    static findAllPembeli(req, res, next) {
 
-        pembeli.find ({}).then((response)=>{
+        pembeli.find({}).then((response) => {
             res.status(200).json({
-                data : response,
+                data: response,
                 message: "Berhasil memuat database pembeli"
             })
         }).catch(next)
     }
 
-    static findPembeli(req, res, next){
+    static findPembeli(req, res, next) {
 
         let _id = req.body
-        pembeli.find ({
+        pembeli.find({
             _id
-        }).then((response)=>{
-            if(response.length!=0){
+        }).then((response) => {
+            if (response.length != 0) {
                 res.status(200).json({
                     data: response,
                     message: "FindByIdPembeli"
                 })
                 console.log("FindByIdPembeli>>>")
-            }else{
-                throw { 
-                    status: 400, 
+            } else {
+                throw {
+                    status: 400,
                     message: "Data pembeli tidak ditemukan!"
                 }
             }
@@ -53,18 +53,18 @@ class PembeliController {
         }).catch(next)
     }
 
-    static editPembeli (req, res, next){
+    static editPembeli(req, res, next) {
         let data = req.body
 
         pembeli.findOneAndUpdate({
-            _id : data._id
-        },{
-            nama : data.nama,
-            tlpn : data.tlpn,
-            nik  : data.nik,
-            alamat : data.alamat,
+            _id: data._id
+        }, {
+            nama: data.nama,
+            tlpn: data.tlpn,
+            nik: data.nik,
+            alamat: data.alamat,
 
-        }).then((r)=>{
+        }).then((r) => {
             res.status(200).json({
                 message: "Berhasil edit data pembeli"
             })

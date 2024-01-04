@@ -5,6 +5,7 @@ function generateTokenWithExp(payload) {
   let jwtCRYPT = jwt.sign(payload, process.env.SECRET, { expiresIn: '2 days' });
   return crypto.AES.encrypt(jwtCRYPT, process.env.ACCESS_KEY).toString();
 }
+
 function generateTokenWOExp(payload) {
   let jwtCRYPT = jwt.sign(payload, process.env.SECRET);
   return crypto.AES.encrypt(jwtCRYPT, process.env.ACCESS_KEY).toString();

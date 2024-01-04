@@ -9,130 +9,130 @@ const { timeStamp } = require("console");
 
 class barangMasukController {
 
-    static addBarangMasuk(req, res, next){
+    static addBarangMasuk(req, res, next) {
         let data = req.body
 
         gudang.findOne({
-            idBarang : data.idBarang
-        }).then(async(response1)=>{
-            if (!response1){
+            idBarang: data.idBarang
+        }).then(async (response1) => {
+            if (!response1) {
                 return gudang.create({
                     idBarang: data.idBarang,
-                    jumlahBarang : 0,
-                    jumlahRusak : 0,
-                    handleBy : data.handleBy,
-                }).then((reNew)=>{
+                    jumlahBarang: 0,
+                    jumlahRusak: 0,
+                    handleBy: data.handleBy,
+                }).then((reNew) => {
                     return masuk.create({
-                        idBarang : reNew.idBarang,
-                        keterangan : data.keterangan,
-                        jumlahMasuk : data.jumlahMasuk,
-                        totalHargaBeli : data.totalHargaBeli,
-                        tanggalTerima : data.tanggalTerima,
-                        idKurir : data.idKurir,
-                        nomorSuratJalan : data.nomorSuratJalan,
+                        idBarang: reNew.idBarang,
+                        keterangan: data.keterangan,
+                        jumlahMasuk: data.jumlahMasuk,
+                        totalHargaBeli: data.totalHargaBeli,
+                        tanggalTerima: data.tanggalTerima,
+                        idKurir: data.idKurir,
+                        nomorSuratJalan: data.nomorSuratJalan,
                     })
                 })
             } else {
                 return masuk.create({
-                    idBarang : data.idBarang,
-                    keterangan : data.keterangan,
-                    jumlahMasuk : data.jumlahMasuk,
-                    totalHargaBeli : data.totalHargaBeli,
-                    tanggalTerima : data.tanggalTerima,
-                    idKurir : data.idKurir,
-                    nomorSuratJalan : data.nomorSuratJalan,
+                    idBarang: data.idBarang,
+                    keterangan: data.keterangan,
+                    jumlahMasuk: data.jumlahMasuk,
+                    totalHargaBeli: data.totalHargaBeli,
+                    tanggalTerima: data.tanggalTerima,
+                    idKurir: data.idKurir,
+                    nomorSuratJalan: data.nomorSuratJalan,
                 })
             }
-        }).then((response3)=>{
+        }).then((response3) => {
             const Barangasuk = response3.jumlahMasuk
-            if(!response3.totalHargaBeli){
+            if (!response3.totalHargaBeli) {
                 barang.findById({
-                    _id : response3.idBarang
-                }).then((tool)=>{
+                    _id: response3.idBarang
+                }).then((tool) => {
                     const totalHarga = tool.hargaBeli;
-                    return masuk.findByIdAndUpdate({_id : response3._id},{$inc : {totalHargaBeli : totalHarga * Barangasuk}})
+                    return masuk.findByIdAndUpdate({ _id: response3._id }, { $inc: { totalHargaBeli: totalHarga * Barangasuk } })
                 })
             }
-        }).then((r)=>{
+        }).then((r) => {
             res.status(200).json({
-                Message : "Berhasil menambah data barang masuk!"
+                Message: "Berhasil menambah data barang masuk!"
             })
         }).catch(next)
-        
+
     }
 
-    static editDataBarangMasuk(req, res, next){
-        let {_id, idBarang, keterangan, jumlahMasuk, tanggalTerima, nomorSuratJalan, idKurir } = req.body
+    static editDataBarangMasuk(req, res, next) {
+        let { _id, idBarang, keterangan, jumlahMasuk, tanggalTerima, nomorSuratJalan, idKurir } = req.body
 
         masuk.findByIdAndUpdate({
-            _id : _id
-        },{
-            idBarang, 
-            keterangan, 
-            jumlahMasuk, 
+            _id: _id
+        }, {
+            idBarang,
+            keterangan,
+            jumlahMasuk,
             tanggalTerima,
             idKurir,
             nomorSuratJalan,
         }
-        ).then((response)=>{
+        ).then((response) => {
             res.status(200).json({
-                Message : "Berhasil ubah data barang masuk!"
+                Message: "Berhasil ubah data barang masuk!"
             })
         }).catch(next)
 
     }
-    
-    static daftarBarangMasuk(req, res, next){
 
-        masuk.find ({}).then((response)=>{
+    static daftarBarangMasuk(req, res, next) {
+
+        masuk.find({}).then((response) => {
             res.status(200).json({
-                data : response,
-                message : "Berhasil memuat database barang masuk!"
+                data: response,
+                message: "Berhasil memuat database barang masuk!"
             })
         })
-        .catch(next)
+            .catch(next)
     }
 
-    static checkMarkBarangBaru(req, res, next){
+    static checkMarkBarangBaru(req, res, next) {
         let data = req.body
 
         masuk.findById({
-            _id : data._id
-        }).then((response1)=>{
-            if(response1.statusTerima === "sudah diterima"){
-                throw{
-                    status : 403,
-                    message : "Pengiriman dengan nomor surat jalan "+ response1.nomorSuratJalan + " sudah di terima!"
+            _id: data._id
+        }).then((response1) => {
+            if (response1.statusTerima === "sudah diterima") {
+                throw {
+                    status: 403,
+                    message: "Pengiriman dengan nomor surat jalan " + response1.nomorSuratJalan + " sudah di terima!"
                 }
             } else {
                 return masuk.findByIdAndUpdate({
-                    _id : data._id
-                },{
-                    statusTerima : "sudah diterima",
-                    tanggalTerima : Date.now()
+                    _id: data._id
+                }, {
+                    statusTerima: "sudah diterima",
+                    tanggalTerima: Date.now()
                 })
             }
-        }).then((response2)=>{
+        }).then((response2) => {
             // console.log(response2)
-            if(response.jumlahMasuk = 0){
-                throw { 
-                    status: 400, 
+            if (response.jumlahMasuk = 0) {
+                throw {
+                    status: 400,
                     message: "barang ghoib!"
                 }
             } else {
                 // console.log(response2)
                 return gudang.findOneAndUpdate({
-                    
-                    idBarang : response2.idBarang
-                },{
-                    $inc : {
-                        jumlahBarang : +response2.jumlahMasuk
+
+                    idBarang: response2.idBarang
+                }, {
+                    $inc: {
+                        jumlahBarang: +response2.jumlahMasuk
                     }
                 })
             }
-        }).then((r)=>{
+        }).then((r) => {
             res.status(200).json({
-                message : "Berhasil memuat database barang masuk!"
+                message: "Berhasil memuat database barang masuk!"
             })
         }).catch(next)
 

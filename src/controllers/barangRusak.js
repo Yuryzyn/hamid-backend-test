@@ -143,16 +143,16 @@ class BarangRusakController {
             });
     }
 
-    static editBarangRusak (req, res, next){
+    static editBarangRusak(req, res, next) {
         let data = req.body
 
         rusak.findOneAndUpdate({
-            _id : data._id
-        },{
-            keteranganRusak : data.keteranganRusak,
+            _id: data._id
+        }, {
+            keteranganRusak: data.keteranganRusak,
             // jumlahRusak : data.jumlahRusak, update jumlah data ndak tau gan..
-            
-        }).then((r)=>{
+
+        }).then((r) => {
             res.status(200).json({
                 message: "Berhasil edit data rusak"
             })
@@ -160,70 +160,70 @@ class BarangRusakController {
 
     }
 
-    static statusRusak (req, res, next){
+    static statusRusak(req, res, next) {
         let data = req.body
 
         rusak.findById({
-            _id : data._id
+            _id: data._id
         })
-        .then((response)=>{
-            if(response.statusRusak === "tidak bisa retur"){
-                throw {
-                    message : "status laporan barang tidak bisa ubah, barang tidak bisa di retur!",
-                    status: 403
-                }
-            } else if(response.statusRusak === "bisa retur"){
-                throw {
-                    message : "status laporan barang tidak bisa ubah, barang bisa di retur!",
-                    status: 403
-                }
-            } else {
-                return rusak.findByIdAndUpdate({ _id: data._id }, {
-                    statusRusak: data.statusRusak
-                }).then((r) => {
-                    if (data.statusRusak === "bisa retur") {
-                        return stock.findOneAndUpdate({
-                            idBarang: r.idBarang
-                        }, {
-                            $inc: {
-                                jumlahRusak: +r.jumlahRusak,
-                            },
-                        });
-                    } else if (data.statusRusak === "tidak bisa retur") {
-                        return stock.findOneAndUpdate({
-                            idBarang: r.idBarang
-                        }, {
-                            $inc: {
-                                rusakNonRetur: +r.jumlahRusak,
-                            },
-                        });
-                    } else {
-                        throw {
-                            message: "status tidak terdaftar atau fitur belum ada!",
-                            status: 404
-                        };
+            .then((response) => {
+                if (response.statusRusak === "tidak bisa retur") {
+                    throw {
+                        message: "status laporan barang tidak bisa ubah, barang tidak bisa di retur!",
+                        status: 403
                     }
-                });
-            }
-        }).then((r)=>{
-            res.status(200).json({
-                message: "Berhasil update status retur"
+                } else if (response.statusRusak === "bisa retur") {
+                    throw {
+                        message: "status laporan barang tidak bisa ubah, barang bisa di retur!",
+                        status: 403
+                    }
+                } else {
+                    return rusak.findByIdAndUpdate({ _id: data._id }, {
+                        statusRusak: data.statusRusak
+                    }).then((r) => {
+                        if (data.statusRusak === "bisa retur") {
+                            return stock.findOneAndUpdate({
+                                idBarang: r.idBarang
+                            }, {
+                                $inc: {
+                                    jumlahRusak: +r.jumlahRusak,
+                                },
+                            });
+                        } else if (data.statusRusak === "tidak bisa retur") {
+                            return stock.findOneAndUpdate({
+                                idBarang: r.idBarang
+                            }, {
+                                $inc: {
+                                    rusakNonRetur: +r.jumlahRusak,
+                                },
+                            });
+                        } else {
+                            throw {
+                                message: "status tidak terdaftar atau fitur belum ada!",
+                                status: 404
+                            };
+                        }
+                    });
+                }
+            }).then((r) => {
+                res.status(200).json({
+                    message: "Berhasil update status retur"
+                })
             })
-        })
-        .catch(next)
+            .catch(next)
     }
 
-    static findPengiriman (req, res, next) {
+    static findPengiriman(req, res, next) {
 
-        sended.find({statusKirim : "finished"}).then((response)=>{
-            if (!response){
+        sended.find({ statusKirim: "finished" }).then((response) => {
+            if (!response) {
                 throw {
-                    message : "tidak ada pengiriman yang telah terkirim, pastikan mendaftarkan barang dari pengiriman yang telah terkirim!",
+                    message: "tidak ada pengiriman yang telah terkirim, pastikan mendaftarkan barang dari pengiriman yang telah terkirim!",
                     status: 404
                 }
             } else {
                 return res.status(200).json({
-                    data : response,
+                    data: response,
                     message: "Berhasil menampilkan daftar pengiriman yang sesuai untuk di retur!"
                 })
             }

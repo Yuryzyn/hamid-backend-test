@@ -13,7 +13,7 @@ const PenjualanItemSchema = new mongoose.Schema({
 
 const PenjualanSchema = new mongoose.Schema(
   {
-    penjualanItems: [PenjualanItemSchema], // Array of PenjualanItems
+    penjualanItems: [PenjualanItemSchema],
     noNota: {
       type: String,
       required: [true, "nomor nota harus di isi!"],

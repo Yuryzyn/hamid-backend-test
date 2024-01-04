@@ -8,11 +8,13 @@ Router.post(
     jwtAuthenticate,
     jual.addPenjualan
 );
+
 Router.get(
     "/all",
     jwtAuthenticate,
     jual.allPenjualan
 );
+
 Router.post(
     "/status",
     jwtAuthenticate,

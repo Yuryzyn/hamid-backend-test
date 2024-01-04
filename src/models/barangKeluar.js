@@ -5,9 +5,9 @@ const BarangKeluarSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tanggalKeluar : {
-    type : Date,
-    default : Date.now,
+  tanggalKeluar: {
+    type: Date,
+    default: Date.now,
   },
   barangKeluarItems: [
     {
@@ -35,27 +35,27 @@ const BarangKeluarSchema = new mongoose.Schema({
   ],
   idKurir: {
     type: String,
-    required : true,
+    required: true,
   },
   nomorSuratJalan: {
     type: String,
-    required : true,
+    required: true,
   },
   alamatKirim: {
     type: String,
-    required : true,
+    required: true,
   },
   statusKirim: {
     type: String,
     default: "on-process",
     // "deliver", "finished", "bermasalah"
   },
-},{
-    versionKey : false,
-    timestamps : {
-        createdAt : "create",
-        updatedAt : "update"
-    }
+}, {
+  versionKey: false,
+  timestamps: {
+    createdAt: "create",
+    updatedAt: "update"
+  }
 });
 
 const BarangKeluar = mongoose.model("keluar", BarangKeluarSchema);

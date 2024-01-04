@@ -1,7 +1,7 @@
 const CryptoJS = require('crypto-js');
 
 const { verifyToken } = require('../helpers/token');
-// const UserWarmindo = require('../models/login').default;
+// const userHamid = require('../models/login').default;
 
 const jwtAuthenticate = async (req, res, next) => {
   try {

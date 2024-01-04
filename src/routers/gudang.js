@@ -17,37 +17,37 @@ Router.post("/status-rusak", rusak.statusRusak);
 Router.get("/find-sended-for-rusak", rusak.findPengiriman);
 
 const barang = require("./../controllers/barang");
-Router.post("/add-item",upload.single("fotoBarang"), barang.addBarang);
+Router.post("/add-item", upload.single("fotoBarang"), barang.addBarang);
 Router.get("/all-item", barang.findAllBarang);
-Router.post("/edit-item",upload.single("fotoBarang"), barang.editBarang);
+Router.post("/edit-item", upload.single("fotoBarang"), barang.editBarang);
 
 const masuk = require("./../controllers/barangMasuk");
-Router.post("/add-restock",masuk.addBarangMasuk);
+Router.post("/add-restock", masuk.addBarangMasuk);
 Router.get("/all-restock", masuk.daftarBarangMasuk);
 Router.post("/edit-restock", masuk.editDataBarangMasuk);
 Router.post("/done-restock", masuk.checkMarkBarangBaru);
 
 const keluar = require("../controllers/barangKeluar");
-Router.get("/find-nota",keluar.findNoNota);
-Router.post("/calculate-nota",keluar.CalculateWithNota)
+Router.get("/find-nota", keluar.findNoNota);
+Router.post("/calculate-nota", keluar.CalculateWithNota)
 Router.post("/add-deliver", keluar.createBarangKeluar);
-Router.get("/all-deliver",keluar.allBarangKeluar);
-Router.post("/checkmark-finished",keluar.checkMarkstatusKirim);
+Router.get("/all-deliver", keluar.allBarangKeluar);
+Router.post("/checkmark-finished", keluar.checkMarkstatusKirim);
 
 const retur = require("../controllers/barangRetur");
 Router.get("/selection-retur", retur.calculateRetur);
-Router.get("/all-retur",retur.findAllBarangReturWithDetail);
-Router.post("/add-retur",retur.addRetur);
-Router.post("/status-retur",retur.statusBarangRetur);
+Router.get("/all-retur", retur.findAllBarangReturWithDetail);
+Router.post("/add-retur", retur.addRetur);
+Router.post("/status-retur", retur.statusBarangRetur);
 
 const kurir = require("../controllers/kurir");
-Router.post("/add-kurir",kurir.addKurir);
-Router.post("/edit-kurir",kurir.editKurir);
-Router.post("/find-id-kurir",kurir.findOneKurir);
-Router.get("/all-kurir",kurir.findAllKurir);
+Router.post("/add-kurir", kurir.addKurir);
+Router.post("/edit-kurir", kurir.editKurir);
+Router.post("/find-id-kurir", kurir.findOneKurir);
+Router.get("/all-kurir", kurir.findAllKurir);
 
 const dashboard = require("../controllers/dashboard");
-Router.get("/report-in",dashboard.laporanBarangMasuk);
-Router.get("/report-out",dashboard.laporanBarangKeluar);
+Router.get("/report-in", dashboard.laporanBarangMasuk);
+Router.get("/report-out", dashboard.laporanBarangKeluar);
 
 module.exports = Router;

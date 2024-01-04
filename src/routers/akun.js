@@ -4,7 +4,7 @@ const { jwtAuthenticate } = require("../middlewares/auth");
 
 
 Router.post(
-    "/login", 
+    "/login",
     akun.loginKaryawan,
 );
 Router.post(
@@ -13,32 +13,32 @@ Router.post(
     akun.tambahKaryawan,
 );
 Router.patch(
-    "/patch-karyawan", 
-    jwtAuthenticate, 
+    "/patch-karyawan",
+    jwtAuthenticate,
     akun.editKaryawan,
 );
 Router.get(
     "/all-karyawan",
-    jwtAuthenticate, 
+    jwtAuthenticate,
     akun.findAllKaryawan,
 );
 Router.patch(
-    "/add-account", 
+    "/add-account",
     jwtAuthenticate,
     akun.tambahAkun
 );
 Router.get(
-    "/refresh", 
-    jwtAuthenticate, 
+    "/refresh",
+    jwtAuthenticate,
     akun.refreshLogin
 );
 Router.patch(
-    "/update-account", 
-    jwtAuthenticate, 
+    "/update-account",
+    jwtAuthenticate,
     akun.resetUsernamePassword
 );
 Router.patch(
-    "/update-status", 
+    "/update-status",
     jwtAuthenticate,
     akun.aktifkanAkun
 );

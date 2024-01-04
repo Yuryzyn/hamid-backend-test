@@ -9,24 +9,24 @@ class BarangReturController {
         const data = req.body;
 
         retur.create(data)
-          .then((retur) => {
-            res.status(200).json({retur, message : "Data berhasil disimpan"});
-          })
-          .catch(next);
-      }
+            .then((retur) => {
+                res.status(200).json({ retur, message: "Data berhasil disimpan" });
+            })
+            .catch(next);
+    }
 
     static async calculateRetur(req, res, next) {
         try {
             const gudangItems = await gudang.find({ jumlahRusak: { $gt: 0 } });
-    
+
             const promises = gudangItems.map(async (gudangItem) => {
                 const returItems = await retur.find({
                     "barangReturItems.idBarang": gudangItem.idBarang
                 });
-                
+
                 // console.log("returItems:", returItems)
                 let totalRetur = 0;
-    
+
                 returItems.forEach((returItem) => {
                     returItem.barangReturItems.forEach((barangReturItem) => {
                         if (barangReturItem.idBarang === gudangItem.idBarang) {
@@ -34,9 +34,9 @@ class BarangReturController {
                         }
                     });
                 });
-    
+
                 gudangItem.jumlahRusak -= totalRetur;
-    
+
                 if (gudangItem.jumlahRusak > 0) {
                     return {
                         idBarang: gudangItem.idBarang,
@@ -48,24 +48,24 @@ class BarangReturController {
                     return null;
                 }
             });
-    
+
             const result = await Promise.all(promises);
-    
+
             // Filter hasil yang tidak null
             const filteredResult = result.filter(item => item !== null);
-    
+
             const detailPromises = filteredResult.map(async (item) => {
                 const barangDetail = await barang.findOne({ _id: item.idBarang });
-    
+
                 return {
                     idBarang: item.idBarang,
                     jumlahRusak: item.jumlahRusak,
                     detailBarang: barangDetail
                 };
             });
-    
+
             const finalResult = await Promise.all(detailPromises);
-    
+
             res.status(200).json({ data: finalResult, message: "Data barang yang bisa di retur berhasil di muat!" });
         } catch (error) {
             next(error);
@@ -90,7 +90,7 @@ class BarangReturController {
                     return Promise.all(detailPromises)
                         .then((barangDetails) => {
                             return {
-                                _id:returItem._id,
+                                _id: returItem._id,
                                 idKurir: returItem.idKurir,
                                 nomorSuratJalan: returItem.nomorSuratJalan,
                                 statusRetur: returItem.statusRetur,
@@ -131,13 +131,13 @@ class BarangReturController {
                             { $inc: { jumlahBarang: +barangReturItem.jumlahRetur, jumlahRusak: -barangReturItem.jumlahRetur } }
                         ).exec();
                     });
-                    return Promise.all(promises).then(()=>{
+                    return Promise.all(promises).then(() => {
                         return retur.findByIdAndUpdate(_id, { statusRetur: "finished" }).exec();
                     }).exec();
                 }
             })
             .then((updatedRetur) => {
-                res.status(200).json({message: "data ini telah di konfirmasi berhasil di retur!", data: updatedRetur});
+                res.status(200).json({ message: "data ini telah di konfirmasi berhasil di retur!", data: updatedRetur });
             })
             .catch(next);
     }

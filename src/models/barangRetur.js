@@ -15,27 +15,27 @@ const BarangReturSchema = new mongoose.Schema({
   ],
   idKurir: {
     type: String,
-    required : true,
+    required: true,
   },
   nomorSuratJalan: {
     type: String,
-    required : true,
+    required: true,
   },
   statusRetur: {
     type: String,
     default: "deliver",
     // deliver,finished
   },
-  tanggalRetur : {
-    type : Date,
-    default : Date.now,
+  tanggalRetur: {
+    type: Date,
+    default: Date.now,
   },
-},{
-    versionKey : false,
-    timestamps : {
-        createdAt : "create",
-        updatedAt : "update"
-    }
+}, {
+  versionKey: false,
+  timestamps: {
+    createdAt: "create",
+    updatedAt: "update"
+  }
 });
 
 const BarangRetur = mongoose.model("retur", BarangReturSchema);

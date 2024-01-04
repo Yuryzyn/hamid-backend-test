@@ -8,7 +8,7 @@ function hashPass(plainPass) {
 
 function checkPass(plainPass, hashPassword) {
     return bcrypt.compareSync(plainPass, hashPassword);
-}   
+}
 
 module.exports = {
     hashPass,
