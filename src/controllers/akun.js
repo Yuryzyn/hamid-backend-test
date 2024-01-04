@@ -1,7 +1,7 @@
 const { response, request } = require("express")
 const Axios = require("axios");
 const mongoose = require("mongoose");
-const { generateTokenWithExp } = require("../helpers/token.js");
+const { generateTokenWOExp, generateTokenWithExp } = require("../helpers/token.js");
 const { checkPass, hashPass } = require("../helpers/hash.js");
 const ObjectId = mongoose.Types.ObjectId;
 const akun = require("../models/akun.js");
