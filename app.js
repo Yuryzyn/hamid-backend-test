@@ -12,7 +12,7 @@ dotenv.config({path: "./src/.env"});
 const PORT = process.env.PORT;
 
 require("./db.connect.js")();
-
+ 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
