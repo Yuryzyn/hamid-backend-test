@@ -230,6 +230,40 @@ class BarangRusakController {
         }).catch(next)
     }
 
+    // static findPengiriman(req, res, next) {
+    //     const noNotaSended = req.query.noNota; // Ambil nomor nota dari query parameter atau sesuaikan dengan cara Anda mengambilnya
+    
+    //     sended.find({ statusKirim: "finished", noNota: noNotaSended })
+    //         .then((response) => {
+    //             if (!response || response.length === 0) {
+    //                 throw {
+    //                     message: "Tidak ada pengiriman yang telah terkirim, pastikan mendaftarkan barang dari pengiriman yang telah terkirim!",
+    //                     status: 404
+    //                 };
+    //             } else {
+    //                 // Lakukan pencarian di database 'jual'
+    //                 jual.findOne({ noNota: noNotaSended, statusKirim: "delivered" })
+    //                     .then((jualResponse) => {
+    //                         if (jualResponse) {
+    //                             // Jika ditemukan data di 'jual' dengan statusKirim 'delivered', berarti jangan tampilkan data sended
+    //                             return res.status(200).json({
+    //                                 data: [],
+    //                                 message: "Tidak menampilkan data sended karena terdapat pengiriman yang sudah terkirim di database 'jual'."
+    //                             });
+    //                         } else {
+    //                             // Tampilkan data sended karena tidak ditemukan pengiriman terkirim di database 'jual'
+    //                             return res.status(200).json({
+    //                                 data: response,
+    //                                 message: "Berhasil menampilkan daftar pengiriman yang sesuai untuk di retur!"
+    //                             });
+    //                         }
+    //                     })
+    //                     .catch(next);
+    //             }
+    //         })
+    //         .catch(next);
+    // }
+
 }
 
 module.exports = BarangRusakController;

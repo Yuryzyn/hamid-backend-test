@@ -10,6 +10,8 @@ var mongoose = require("mongoose");
   folder = process.env.DB_FOLDER;
  } else if (database === process.env.DATABASE2){
   folder = process.env.DB_FOLDER2;
+ } else {
+  folder = "elsewhere"
  }
 
 const dbConnect = () => {

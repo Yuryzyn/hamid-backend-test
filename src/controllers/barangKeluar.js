@@ -285,13 +285,13 @@ class BarangKeluarController {
                             if (statusKirim === "deliver") {
 
                                 barangKeluarItems.forEach((barangKeluarItem) => {
-                                    console.log(barangKeluarItem)
+                                    // console.log(barangKeluarItem)
                                     const idBarang = barangKeluarItem.idBarang;
                                     const jumlahKeluar = barangKeluarItem.jumlahKeluar;
 
                                     // Temukan dan kurangi jumlah barang di model gudang dengan idBarang yang sama
                                     // Contoh: Kurangi jumlah barang di GudangModel dengan idBarang === idBarang
-                                    console.log(jumlahKeluar)
+                                    // console.log(jumlahKeluar)
                                     return gudang.updateOne(
                                         { idBarang: idBarang },
                                         { $inc: { jumlahBarang: -jumlahKeluar } }
