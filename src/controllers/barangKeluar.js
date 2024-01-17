@@ -25,7 +25,7 @@ class BarangKeluarController {
                     const penjualanData = await penjualan.findOne({ noNota });
 
                     const isBarangAvailableInGudang = await Promise.all(penjualanData.penjualanItems.map(async (item) => {
-                        const gudangData = await gudang.findOne({ idBarang: item.idBarang });
+                        const gudangData = await gudang.findOne({ idBarang: item.idBarang, jumlahBarang: { $gte: item.jumlahBeli } });
                         return gudangData !== null;
                     }));
 
